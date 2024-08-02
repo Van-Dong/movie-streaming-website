@@ -1,12 +1,12 @@
 package com.dongnv.movie_website.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.aot.generate.GeneratedTypeReference;
-
 import java.time.LocalDate;
 import java.util.Set;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -23,6 +23,7 @@ public class User {
 
     @Column(name = "username", unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String username;
+
     String firstName;
     String lastName;
     String email;

@@ -1,9 +1,8 @@
 package com.dongnv.movie_website.dto.request;
 
-
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,14 +12,17 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
-    @Size(min = 4, message = "Username must be at least 4 characters")
+    @Size(min = 4, message = "INVALID_USERNAME")
     String username;
+
     String firstName;
     String lastName;
 
-    @Email(message = "Email should be valid")
+    @Email(message = "INVALID_EMAIL")
     String email;
-    @Size(min = 8, message = "Password must be at least 8 characters")
+
+    @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
+
     String dob;
 }

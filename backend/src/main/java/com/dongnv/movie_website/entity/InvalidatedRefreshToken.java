@@ -1,5 +1,7 @@
 package com.dongnv.movie_website.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -13,9 +15,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Role {
+public class InvalidatedRefreshToken {
     @Id
-    String name;
+    String id;
 
-    String description;
+    Date expiryTime;
 }

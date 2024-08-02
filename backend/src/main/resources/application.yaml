@@ -14,3 +14,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+jwt:
+  signerKey: "YFk388TsWvGVx7Cw7yRdkJgrW57GDsA3StLwX/VcWScQpUQv5alGL7BxqzRVbHbb"
+  accessTokenExpiration: 100 # in mintues
+  refreshTokenExpiration: 1440 # in minutes
+  issuer: "movie_website"

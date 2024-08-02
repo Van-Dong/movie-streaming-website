@@ -1,6 +1,7 @@
 package com.dongnv.movie_website.dto.request;
 
 import jakarta.validation.constraints.Size;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserChangePasswordRequest {
     String oldPassword;
-    @Size(min = 8, message = "Password must be at least 8 characters")
+
+    @Size(min = 8, message = "INVALID_PASSWORD")
     String newPassword;
 }

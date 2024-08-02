@@ -3,7 +3,7 @@ package com.dongnv.movie_website.exception;
 import lombok.Getter;
 
 @Getter
-public class AppException extends RuntimeException{
+public class AppException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public AppException(ErrorCode errorCode) {

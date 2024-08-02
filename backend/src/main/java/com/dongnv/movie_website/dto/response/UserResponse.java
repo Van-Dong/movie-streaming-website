@@ -1,5 +1,9 @@
 package com.dongnv.movie_website.dto.response;
 
+import java.util.Set;
+
+import com.dongnv.movie_website.entity.Role;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,4 +19,5 @@ public class UserResponse {
     String lastName;
     String email;
     String dob;
+    Set<Role> roles;
 }

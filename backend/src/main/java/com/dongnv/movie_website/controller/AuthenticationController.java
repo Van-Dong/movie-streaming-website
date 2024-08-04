@@ -1,13 +1,10 @@
 package com.dongnv.movie_website.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
-import com.dongnv.movie_website.dto.request.AuthenticationRequest;
-import com.dongnv.movie_website.dto.request.LogoutRequest;
-import com.dongnv.movie_website.dto.request.RefreshRequest;
+import org.springframework.web.bind.annotation.*;
+
+import com.dongnv.movie_website.dto.request.*;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.AuthenticationResponse;
 import com.dongnv.movie_website.dto.response.RefreshResponse;
@@ -43,6 +40,31 @@ public class AuthenticationController {
     @PostMapping("/logout")
     ApiResponse<Void> logout(@RequestBody LogoutRequest request) {
         authenticationService.logout(request);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/verifyEmail")
+    ApiResponse<Void> verifyEmail() {
+        authenticationService.sendVerificationEmail();
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/verifyEmail/verifyToken")
+    ApiResponse<Void> verifyVerificationEmailToken(@RequestBody @Valid VerifyTokenRequest request) {
+        authenticationService.verifyEmailToken(request);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/resetPassword/verifyToken")
+    ApiResponse<Void> verifyResetPasswordToken(@RequestBody @Valid VerifyResetPasswordTokenRequest request) {
+        log.info("ResetPassword VerifyToken");
+        authenticationService.verifyResetPasswordToken(request);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/resetPassword")
+    ApiResponse<Void> createResetPasswordRequest(@RequestBody @Valid ResetPasswordRequest request) {
+        authenticationService.createResetPasswordRequest(request);
         return ApiResponse.<Void>builder().build();
     }
 }

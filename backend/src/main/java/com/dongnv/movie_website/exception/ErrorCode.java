@@ -17,6 +17,11 @@ public enum ErrorCode {
     UNAUTHENTICATED(1007, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1008, "You don't have permission", HttpStatus.FORBIDDEN),
     METHOD_NOT_ALLOWED(1009, "Request method is not supported", HttpStatus.METHOD_NOT_ALLOWED),
+    FAILED_SEND_EMAIL(1010, "Send email failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    USER_EMAIL_NOT_PROVIDED(1010, "User has not set email", HttpStatus.BAD_REQUEST),
+    TOKEN_VERIFIED_NOT_VALID(1011, "Token verified is not valid", HttpStatus.BAD_REQUEST),
+    EMAIL_NOT_VERIFIED(1012, "Email is not verified", HttpStatus.BAD_REQUEST),
+    NOT_FOUND_404(1013, "No resource found in this endpoint", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

@@ -16,8 +16,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import com.dongnv.movie_website.constant.RoleType;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -25,8 +23,17 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     private String SIGNER_KEY;
 
-    private static final String[] PUBLIC_ENDPOINTS = {
-        "/auth/token", "/auth/refresh", "/auth/logout", "/api/user/sign-up",
+    private static final String[] PUBLIC_POST_ENDPOINTS = {
+        "/auth/token",
+        "/auth/refresh",
+        "/auth/logout",
+        "/auth/resetPassword",
+        "auth/resetPassword/verifyToken",
+        "/api/user/sign-up",
+    };
+
+    private static final String[] PUBLIC_GET_ENDPOINTS = {
+        "/v3/**", "/swagger-ui.html", "/swagger-ui/**",
     };
 
     @Autowired
@@ -36,12 +43,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
+                        .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS)
                         .permitAll()
-                        .requestMatchers("api/admin/**")
-                        .hasRole(RoleType.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS)
+                        .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .permitAll())
+                //                        .requestMatchers("api/admin/**")
+                //                        .hasRole(RoleType.ADMIN.name())
+                //                        .anyRequest()
+                //                        .authenticated())
                 .exceptionHandling(
                         exceptionHandling -> exceptionHandling.accessDeniedHandler(customAccessDeniedHandler()))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer

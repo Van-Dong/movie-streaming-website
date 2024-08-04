@@ -19,5 +19,6 @@ public class UserResponse {
     String lastName;
     String email;
     String dob;
+    boolean emailIsVerified;
     Set<Role> roles;
 }

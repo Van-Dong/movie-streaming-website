@@ -1,10 +1,12 @@
 package com.dongnv.movie_website.exception.handler;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.exception.AppException;
@@ -55,6 +57,29 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiResponse<Void>> handlingMethodNotSupportedException(
             HttpRequestMethodNotSupportedException exception) {
         ErrorCode errorCode = ErrorCode.METHOD_NOT_ALLOWED;
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.<Void>builder()
+                        .status(false)
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
+    }
+
+    // MailException is parent
+    @ExceptionHandler(value = MailSendException.class)
+    ResponseEntity<ApiResponse<Void>> handlingMailSendException(MailSendException exception) {
+        ErrorCode errorCode = ErrorCode.FAILED_SEND_EMAIL;
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.<Void>builder()
+                        .status(false)
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = NoResourceFoundException.class)
+    ResponseEntity<ApiResponse<Void>> handlingNoResourceFoundException(NoResourceFoundException exception) {
+        ErrorCode errorCode = ErrorCode.NOT_FOUND_404;
         return ResponseEntity.status(errorCode.getHttpStatusCode())
                 .body(ApiResponse.<Void>builder()
                         .status(false)

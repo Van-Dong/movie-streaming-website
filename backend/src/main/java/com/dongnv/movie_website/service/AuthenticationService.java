@@ -7,16 +7,17 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.dongnv.movie_website.dto.request.AuthenticationRequest;
-import com.dongnv.movie_website.dto.request.LogoutRequest;
-import com.dongnv.movie_website.dto.request.RefreshRequest;
+import com.dongnv.movie_website.dto.request.*;
 import com.dongnv.movie_website.dto.response.AuthenticationResponse;
 import com.dongnv.movie_website.dto.response.RefreshResponse;
 import com.dongnv.movie_website.entity.InvalidatedRefreshToken;
@@ -44,6 +45,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationService {
     UserRepository userRepository;
     InvalidatedRefreshTokenRepository invalidatedRefreshTokenRepository;
+    EmailService emailService;
+    RedisTemplate<String, String> redisTemplate;
 
     @NonFinal
     @Value("${jwt.signerKey}") // Spring không thể gán biến final qua @Value mà cần khởi tạo tại chỗ hoặc trong
@@ -119,6 +122,69 @@ public class AuthenticationService {
         } catch (AppException | ParseException ignored) {
 
         }
+    }
+
+    public void sendVerificationEmail() {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (Objects.isNull(user.getEmail())) throw new AppException(ErrorCode.USER_EMAIL_NOT_PROVIDED);
+
+        String verificationCode = UUID.randomUUID().toString().substring(0, 8);
+        redisTemplate.opsForValue().set(username, verificationCode, 2, TimeUnit.MINUTES);
+        emailService.sendVerificationEmail(user.getEmail(), username, verificationCode);
+    }
+
+    public void verifyEmailToken(VerifyTokenRequest request) {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        String token = redisTemplate.opsForValue().get(username);
+
+        if (Objects.isNull(token) || !token.equals(request.getToken()))
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        user.setEmailIsVerified(true);
+        userRepository.save(user);
+        redisTemplate.delete(username);
+    }
+
+    public void createResetPasswordRequest(ResetPasswordRequest request) {
+        String username = request.getUsername();
+        String email = request.getEmail();
+
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (!email.equals(user.getEmail())) throw new AppException(ErrorCode.INVALID_EMAIL);
+
+        if (!user.isEmailIsVerified()) throw new AppException(ErrorCode.EMAIL_NOT_VERIFIED);
+
+        String token = UUID.randomUUID().toString().substring(0, 8);
+        redisTemplate.opsForValue().set(username, token, 2, TimeUnit.MINUTES);
+        emailService.sendVerificationEmail(email, username, token);
+    }
+
+    public void verifyResetPasswordToken(VerifyResetPasswordTokenRequest request) {
+        String username = request.getUsername();
+        String token = redisTemplate.opsForValue().get(username);
+
+        if (!request.getToken().equals(token)) throw new AppException(ErrorCode.TOKEN_VERIFIED_NOT_VALID);
+
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        String newPassword = UUID.randomUUID().toString().substring(0, 8);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        redisTemplate.delete(username);
+        emailService.sendNewPasswordEmail(user.getEmail(), username, newPassword);
     }
 
     public SignedJWT verifyToken(String token) {

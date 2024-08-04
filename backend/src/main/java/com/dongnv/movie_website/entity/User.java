@@ -21,7 +21,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
-    @Column(name = "username", unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
+    @Column(
+            name = "username",
+            unique = true,
+            nullable = false,
+            columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String username;
 
     String firstName;
@@ -29,6 +33,8 @@ public class User {
     String email;
     String password;
     LocalDate dob;
+
+    boolean emailIsVerified = false;
 
     @ManyToMany
     Set<Role> roles;

@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Objects;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
@@ -20,8 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerJwtDecoder implements JwtDecoder {
 
-    @Autowired
-    AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+
+    public CustomerJwtDecoder(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @Value("${jwt.signerKey}")
     private String SIGNER_KEY;

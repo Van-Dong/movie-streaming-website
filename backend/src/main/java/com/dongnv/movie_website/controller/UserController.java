@@ -44,6 +44,11 @@ public class UserController {
         return ApiResponse.<Void>builder().build();
     }
 
+    @PostMapping("/api/admin/users/vip/{userId}")
+    ApiResponse<Void> upgradeAccount(Object request) {
+        return ApiResponse.<Void>builder().build();
+    }
+
     // sign up - create user
     @PostMapping("/api/user/sign-up")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {

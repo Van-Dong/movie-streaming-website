@@ -1,6 +1,5 @@
 package com.dongnv.movie_website.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +14,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import com.dongnv.movie_website.constant.RoleType;
 
 @Configuration
 @EnableWebSecurity
@@ -36,8 +40,11 @@ public class SecurityConfig {
         "/v3/**", "/swagger-ui.html", "/swagger-ui/**",
     };
 
-    @Autowired
-    CustomerJwtDecoder customerJwtDecoder;
+    private final CustomerJwtDecoder customerJwtDecoder;
+
+    public SecurityConfig(CustomerJwtDecoder customerJwtDecoder) {
+        this.customerJwtDecoder = customerJwtDecoder;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -47,12 +54,10 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS)
                         .permitAll()
+                        .requestMatchers("api/admin/**")
+                        .hasRole(RoleType.ADMIN.name())
                         .anyRequest()
-                        .permitAll())
-                //                        .requestMatchers("api/admin/**")
-                //                        .hasRole(RoleType.ADMIN.name())
-                //                        .anyRequest()
-                //                        .authenticated())
+                        .authenticated())
                 .exceptionHandling(
                         exceptionHandling -> exceptionHandling.accessDeniedHandler(customAccessDeniedHandler()))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
@@ -62,6 +67,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 
     @Bean

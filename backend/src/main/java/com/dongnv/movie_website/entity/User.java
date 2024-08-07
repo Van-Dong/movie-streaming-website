@@ -1,9 +1,12 @@
 package com.dongnv.movie_website.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import jakarta.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -33,9 +36,12 @@ public class User {
     String email;
     String password;
     LocalDate dob;
-
     boolean emailIsVerified = false;
 
-    @ManyToMany
-    Set<Role> roles;
+    @CreationTimestamp
+    LocalDateTime joinDate;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "userId")
+    Set<UserRole> roles;
 }

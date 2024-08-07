@@ -22,6 +22,11 @@ public enum ErrorCode {
     TOKEN_VERIFIED_NOT_VALID(1011, "Token verified is not valid", HttpStatus.BAD_REQUEST),
     EMAIL_NOT_VERIFIED(1012, "Email is not verified", HttpStatus.BAD_REQUEST),
     NOT_FOUND_404(1013, "No resource found in this endpoint", HttpStatus.NOT_FOUND),
+    NOT_NULL(1014, "Filed mustn't be null!", HttpStatus.BAD_REQUEST),
+    CATEGORY_NOT_EXISTED(1015, "Category not exist", HttpStatus.BAD_REQUEST),
+    CATEGORY_EXISTED(1016, "Category existed", HttpStatus.BAD_REQUEST),
+    PAGE_NUMBER_INVALID(1017, "Page number must be at least 0", HttpStatus.BAD_REQUEST),
+    PAGE_SIZE_INVALID(1018, "Page size must be in range [1, 20]", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

@@ -2,6 +2,7 @@ package com.dongnv.movie_website.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -18,8 +19,10 @@ public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     long id;
 
+    @JsonIgnore
     String userId;
 
     String name;

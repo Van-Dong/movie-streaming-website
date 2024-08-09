@@ -27,6 +27,11 @@ public enum ErrorCode {
     CATEGORY_EXISTED(1016, "Category existed", HttpStatus.BAD_REQUEST),
     PAGE_NUMBER_INVALID(1017, "Page number must be at least 0", HttpStatus.BAD_REQUEST),
     PAGE_SIZE_INVALID(1018, "Page size must be in range [1, 20]", HttpStatus.BAD_REQUEST),
+    INVALID_VALIDITY_PERIOD(1019, "Validity period must be at least 1", HttpStatus.BAD_REQUEST),
+    MISSING_REQUEST_BODY(1020, "Required request body is missing", HttpStatus.BAD_REQUEST),
+    UPLOAD_FILE_FAILED(1021, "Upload file is Error", HttpStatus.INTERNAL_SERVER_ERROR),
+    GET_LIST_OBJECTS_IN_S3_FAILED(1022, "Get list objects in s3 failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    MOVIE_NOT_FOUND(1023, "Movie not found", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

@@ -1,8 +1,18 @@
 package com.dongnv.movie_website.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+import com.dongnv.movie_website.constant.RoleType;
+import com.dongnv.movie_website.dto.request.UpgradeAccountRequest;
+import com.dongnv.movie_website.entity.UserRole;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,8 +55,8 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public List<UserResponse> getAll() {
-        var users = userRepository.findAll();
+    public List<UserResponse> getUsers(String query, int page, int size) {
+        List<User> users = userRepository.findAllByUsernameLike(query, PageRequest.of(page, size, Sort.by("username")));
         return users.stream().map(userMapper::toUserResponse).toList();
     }
 
@@ -82,5 +92,32 @@ public class UserService {
         User user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
+    }
+
+    public void upgradeAccount(String id, UpgradeAccountRequest request) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
+        );
+
+        Set<UserRole> roles = user.getRoles();
+        Optional<UserRole> roleOptional =  roles.stream().filter(r ->
+                        r.getName().equals(RoleType.VIP_USER.name()))
+                .findFirst();
+
+        long timeRemaining = 0;
+        if (roleOptional.isPresent()) {
+            UserRole r = roleOptional.get();
+            if (r.getExpiryDate().isAfter(LocalDate.now()))
+                timeRemaining = ChronoUnit.DAYS.between(LocalDate.now(), r.getExpiryDate());
+            roles.remove(r);
+        }
+
+        roles.add(UserRole.builder()
+                .name(RoleType.VIP_USER.name())
+                .assignedDate(LocalDate.now())
+                .expiryDate(LocalDate.now().plusDays(request.getValidityPeriod() + timeRemaining))
+                .build());
+
+        userRepository.save(user);
     }
 }

@@ -24,8 +24,6 @@ import com.dongnv.movie_website.constant.RoleType;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    @Value("${jwt.signerKey}")
-    private String SIGNER_KEY;
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
         "/auth/token",
@@ -83,7 +81,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
 

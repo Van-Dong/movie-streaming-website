@@ -3,6 +3,7 @@ package com.dongnv.movie_website.exception.handler;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mail.MailSendException;
 import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse<Void>> handlingValidationException(MethodArgumentNotValidException exception) {
-        String enumKey = exception.getFieldError().getDefaultMessage();
+        String enumKey = exception.getAllErrors().getFirst().getDefaultMessage();
         ErrorCode errorCode = ErrorCode.valueOf(enumKey);
         return ResponseEntity.status(errorCode.getHttpStatusCode())
                 .body(ApiResponse.<Void>builder()
@@ -102,6 +103,16 @@ public class GlobalExceptionHandler {
                         .status(false)
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
+                .build());
+    }
+
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    ResponseEntity<ApiResponse<Void>> handlingHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+        ErrorCode errorCode = ErrorCode.MISSING_REQUEST_BODY;
+        return ResponseEntity.status(errorCode.getHttpStatusCode()).body(ApiResponse.<Void>builder()
+                .status(false)
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
                 .build());
     }
 }

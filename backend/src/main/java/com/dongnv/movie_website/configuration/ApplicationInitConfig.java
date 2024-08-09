@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import com.dongnv.movie_website.entity.Category;
 import com.dongnv.movie_website.repository.CategoryRepository;
+import com.github.slugify.Slugify;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +47,6 @@ public class ApplicationInitConfig {
 
         return args -> {
             log.info("Application is started");
-
             // Add 100 category
 //            if (!categoryRepository.existsById("name-16")) {
 //                categoryRepository.saveAll(IntStream.range(0, 100).mapToObj(

@@ -5,6 +5,10 @@ server:
     context-path: /
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
   datasource:
     driverClassName: "com.mysql.cj.jdbc.Driver"
     url: ${DBMS_URL:jdbc:mysql://localhost:3306/movie-website}
@@ -38,6 +42,14 @@ jwt:
   accessTokenExpiration: 100 # in mintues
   refreshTokenExpiration: 1440 # in minutes
   issuer: "movie_website"
+
+aws:
+  access: "AKIA257JESJHPOIJAYNU"
+  secret: "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"
+  s3:
+    bucketName: "movie-website-stograge"
+    region: "ap-southeast-2"
+    folderName: "movie"
 
 #springdoc:
 #  api-docs:

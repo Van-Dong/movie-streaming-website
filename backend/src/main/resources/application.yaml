@@ -39,7 +39,7 @@ spring:
 
 jwt:
   signerKey: "YFk388TsWvGVx7Cw7yRdkJgrW57GDsA3StLwX/VcWScQpUQv5alGL7BxqzRVbHbb"
-  accessTokenExpiration: 100 # in mintues
+  accessTokenExpiration: 6000 # in mintues
   refreshTokenExpiration: 1440 # in minutes
   issuer: "movie_website"
 
@@ -50,6 +50,8 @@ aws:
     bucketName: "movie-website-stograge"
     region: "ap-southeast-2"
     folderName: "movie"
+    publicFolder: "public"
+    cdnName: "https://movie-website-stograge.s3.ap-southeast-2.amazonaws.com/"
 
 #springdoc:
 #  api-docs:

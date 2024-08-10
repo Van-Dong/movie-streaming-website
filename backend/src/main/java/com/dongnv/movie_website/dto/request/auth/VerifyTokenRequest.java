@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.auth;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -10,9 +10,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryRequest {
-    @NotNull(message = "NOT_NULL")
-    String name;
-
-    String description;
+public class VerifyTokenRequest {
+    @NotNull(message = "TOKEN_VERIFIED_NOT_VALID")
+    String token;
 }

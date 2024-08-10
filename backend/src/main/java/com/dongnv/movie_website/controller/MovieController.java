@@ -1,17 +1,20 @@
 package com.dongnv.movie_website.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.dongnv.movie_website.dto.request.UploadMovieRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.MovieResponse;
 import com.dongnv.movie_website.service.AwsS3Service;
 import com.dongnv.movie_website.service.MovieService;
-import jakarta.validation.Valid;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,8 +57,4 @@ public class MovieController {
                 .result(movieService.getAllObjectsInS3())
                 .build();
     }
-
-
-
-
 }

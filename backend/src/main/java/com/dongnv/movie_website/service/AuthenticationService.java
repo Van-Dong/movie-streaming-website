@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.dongnv.movie_website.dto.request.*;
+import com.dongnv.movie_website.dto.request.auth.*;
 import com.dongnv.movie_website.dto.response.AuthenticationResponse;
 import com.dongnv.movie_website.dto.response.RefreshResponse;
 import com.dongnv.movie_website.entity.InvalidatedRefreshToken;

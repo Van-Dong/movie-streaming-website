@@ -1,10 +1,9 @@
 package com.dongnv.movie_website.entity;
 
-import java.time.LocalDate;
-
-import jakarta.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,17 +15,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class UserRole {
-
+public class Studio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    long id;
-
-    @JsonIgnore
-    String userId;
+    int id;
 
     String name;
-    LocalDate assignedDate;
-    LocalDate expiryDate;
+    String description;
 }

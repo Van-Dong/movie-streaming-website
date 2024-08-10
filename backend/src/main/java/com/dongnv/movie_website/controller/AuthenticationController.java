@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.dongnv.movie_website.dto.request.*;
+import com.dongnv.movie_website.dto.request.auth.*;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.AuthenticationResponse;
 import com.dongnv.movie_website.dto.response.RefreshResponse;

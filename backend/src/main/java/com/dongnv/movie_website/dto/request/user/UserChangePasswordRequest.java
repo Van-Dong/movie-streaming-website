@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.user;
 
 import jakarta.validation.constraints.Size;
 

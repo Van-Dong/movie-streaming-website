@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +8,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RefreshRequest {
+public class LogoutRequest {
     String token;
 }

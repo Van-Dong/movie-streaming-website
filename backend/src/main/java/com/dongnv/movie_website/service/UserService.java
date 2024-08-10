@@ -2,14 +2,10 @@ package com.dongnv.movie_website.service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.dongnv.movie_website.constant.RoleType;
-import com.dongnv.movie_website.dto.request.UpgradeAccountRequest;
-import com.dongnv.movie_website.entity.UserRole;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,11 +14,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.dongnv.movie_website.dto.request.UserChangePasswordRequest;
-import com.dongnv.movie_website.dto.request.UserCreationRequest;
-import com.dongnv.movie_website.dto.request.UserUpdateRequest;
+import com.dongnv.movie_website.constant.RoleType;
+import com.dongnv.movie_website.dto.request.user.UpgradeAccountRequest;
+import com.dongnv.movie_website.dto.request.user.UserChangePasswordRequest;
+import com.dongnv.movie_website.dto.request.user.UserCreationRequest;
+import com.dongnv.movie_website.dto.request.user.UserUpdateRequest;
 import com.dongnv.movie_website.dto.response.UserResponse;
 import com.dongnv.movie_website.entity.User;
+import com.dongnv.movie_website.entity.UserRole;
 import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
 import com.dongnv.movie_website.mapper.UserMapper;
@@ -95,13 +94,11 @@ public class UserService {
     }
 
     public void upgradeAccount(String id, UpgradeAccountRequest request) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
-        );
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         Set<UserRole> roles = user.getRoles();
-        Optional<UserRole> roleOptional =  roles.stream().filter(r ->
-                        r.getName().equals(RoleType.VIP_USER.name()))
+        Optional<UserRole> roleOptional = roles.stream()
+                .filter(r -> r.getName().equals(RoleType.VIP_USER.name()))
                 .findFirst();
 
         long timeRemaining = 0;

@@ -1,26 +1,17 @@
 package com.dongnv.movie_website.configuration;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
-import com.dongnv.movie_website.entity.Category;
-import com.dongnv.movie_website.repository.CategoryRepository;
-import com.github.slugify.Slugify;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dongnv.movie_website.constant.RoleType;
 import com.dongnv.movie_website.entity.User;
 import com.dongnv.movie_website.entity.UserRole;
 import com.dongnv.movie_website.repository.UserRepository;
-import com.dongnv.movie_website.repository.UserRoleRepository;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -43,19 +34,10 @@ public class ApplicationInitConfig {
     String adminPassword = "admin";
 
     @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository, UserRoleRepository userRoleRepository, CategoryRepository categoryRepository) {
+    ApplicationRunner applicationRunner(UserRepository userRepository) {
 
         return args -> {
             log.info("Application is started");
-            // Add 100 category
-//            if (!categoryRepository.existsById("name-16")) {
-//                categoryRepository.saveAll(IntStream.range(0, 100).mapToObj(
-//                        i -> Category.builder()
-//                                .name("name-" + i)
-//                                .build()
-//                ).toList());
-//            }
-
             // Create user
             if (!userRepository.existsByUsername(adminUsername)) {
                 Set<UserRole> roles = new HashSet<>();

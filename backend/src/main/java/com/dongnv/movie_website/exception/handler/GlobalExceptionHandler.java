@@ -1,11 +1,8 @@
 package com.dongnv.movie_website.exception.handler;
 
-import org.springframework.context.MessageSourceResolvable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mail.MailSendException;
-import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,8 +15,6 @@ import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Collection;
 
 @ControllerAdvice
 @Slf4j
@@ -96,23 +91,27 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = HandlerMethodValidationException.class)
-    ResponseEntity<ApiResponse<Void>> handlingHandlerMethodValidationException(HandlerMethodValidationException exception) {
+    ResponseEntity<ApiResponse<Void>> handlingHandlerMethodValidationException(
+            HandlerMethodValidationException exception) {
         String enumKey = exception.getAllErrors().getFirst().getDefaultMessage();
         ErrorCode errorCode = ErrorCode.valueOf(enumKey);
-        return ResponseEntity.status(errorCode.getHttpStatusCode()).body(ApiResponse.<Void>builder()
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.<Void>builder()
                         .status(false)
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
-                .build());
+                        .build());
     }
 
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
-    ResponseEntity<ApiResponse<Void>> handlingHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+    ResponseEntity<ApiResponse<Void>> handlingHttpMessageNotReadableException(
+            HttpMessageNotReadableException exception) {
         ErrorCode errorCode = ErrorCode.MISSING_REQUEST_BODY;
-        return ResponseEntity.status(errorCode.getHttpStatusCode()).body(ApiResponse.<Void>builder()
-                .status(false)
-                .code(errorCode.getCode())
-                .message(errorCode.getMessage())
-                .build());
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.<Void>builder()
+                        .status(false)
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
     }
 }

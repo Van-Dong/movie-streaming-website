@@ -2,6 +2,8 @@ package com.dongnv.movie_website.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,10 +12,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class VerifyResetPasswordTokenRequest {
-    @NotNull(message = "INVALID_USERNAME")
-    String username;
+public class ActorRequest {
+    @NotNull(message = "NOT_NULL")
+    String name;
 
-    @NotNull(message = "TOKEN_VERIFIED_NOT_VALID")
-    String token;
+    MultipartFile portraitFile;
 }

@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

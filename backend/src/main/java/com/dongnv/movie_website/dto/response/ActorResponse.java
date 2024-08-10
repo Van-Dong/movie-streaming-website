@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LogoutRequest {
-    String token;
+public class ActorResponse {
+    long id;
+    String name;
+    String portraitUrl;
 }

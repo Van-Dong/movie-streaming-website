@@ -12,6 +12,8 @@ import com.dongnv.movie_website.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     boolean existsByUsername(String username);
+
     Optional<User> findByUsername(String username);
+
     List<User> findAllByUsernameLike(String username, Pageable pageable);
 }

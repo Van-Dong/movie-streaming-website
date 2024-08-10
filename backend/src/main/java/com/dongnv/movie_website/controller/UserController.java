@@ -2,16 +2,16 @@ package com.dongnv.movie_website.controller;
 
 import java.util.List;
 
-import com.dongnv.movie_website.dto.request.UpgradeAccountRequest;
 import jakarta.validation.Valid;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+
 import org.springframework.web.bind.annotation.*;
 
-import com.dongnv.movie_website.dto.request.UserChangePasswordRequest;
-import com.dongnv.movie_website.dto.request.UserCreationRequest;
-import com.dongnv.movie_website.dto.request.UserUpdateRequest;
+import com.dongnv.movie_website.dto.request.user.UpgradeAccountRequest;
+import com.dongnv.movie_website.dto.request.user.UserChangePasswordRequest;
+import com.dongnv.movie_website.dto.request.user.UserCreationRequest;
+import com.dongnv.movie_website.dto.request.user.UserUpdateRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.UserResponse;
 import com.dongnv.movie_website.service.UserService;
@@ -28,12 +28,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/api/admin/users")
-    ApiResponse<List<UserResponse>> getAll(@RequestParam(defaultValue = "") String query,
-                                           @RequestParam(defaultValue = "0")
-                                           @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
-                                           @RequestParam(defaultValue = "10")
-                                           @Min(value = 0, message = "PAGE_SIZE_INVALID")
-                                           @Max(value = 20, message = "PAGE_SIZE_INVALID") int size) {
+    ApiResponse<List<UserResponse>> getAll(
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "0") @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
+            @RequestParam(defaultValue = "10")
+                    @Min(value = 0, message = "PAGE_SIZE_INVALID")
+                    @Max(value = 20, message = "PAGE_SIZE_INVALID")
+                    int size) {
         query = "%" + query + "%";
         return ApiResponse.<List<UserResponse>>builder()
                 .result(userService.getUsers(query, page, size))

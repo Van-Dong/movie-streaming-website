@@ -1,12 +1,11 @@
 package com.dongnv.movie_website.dto.request;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -16,12 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadMovieRequest {
     @NotNull
     String title;
+
     String description;
     String producingCountry;
     int yearOfRelease;
 
     @Builder.Default
     boolean isSeries = false;
+
+    @NotNull
+    MultipartFile trailer;
 
     @NotNull
     MultipartFile file;

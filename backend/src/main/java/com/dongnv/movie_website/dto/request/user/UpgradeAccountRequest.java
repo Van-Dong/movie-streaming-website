@@ -1,7 +1,8 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.user;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

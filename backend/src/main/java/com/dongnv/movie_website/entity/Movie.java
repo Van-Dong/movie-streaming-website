@@ -1,12 +1,11 @@
 package com.dongnv.movie_website.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,8 +33,15 @@ public class Movie {
     String movieKey;
     String trailerKey;
 
+    @OneToMany
+    @JoinColumn(name = "movieId")
+    Set<Series> series;
+
     //    Studio studio;
     //    Set<Category> categories;
-    //    Set<Actor> actors;
+    //    Set<Genres> genres;
     //    Set<Director> directors;
+//    Set<Character> characters;
+
+
 }

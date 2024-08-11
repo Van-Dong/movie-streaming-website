@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
@@ -14,11 +16,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Studio {
+public class Episode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-
-    String name;
-    String description;
+    long seriesId;
+    int episodeNumber;
+    String url;
 }

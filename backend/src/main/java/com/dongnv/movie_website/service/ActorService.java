@@ -41,7 +41,7 @@ public class ActorService {
 
     public List<ActorResponse> getActors(String query, int page, int size) {
         List<Actor> actors = actorRepository.findAllByNameLike(query, PageRequest.of(page, size, Sort.by("name")));
-        return actors.stream().map(actor -> actorMapper.toActorResponse(actor)).toList();
+        return actors.stream().map(actorMapper::toActorResponse).toList();
     }
 
     public ActorResponse updateActor(long id, ActorRequest request) {

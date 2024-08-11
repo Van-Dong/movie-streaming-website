@@ -1,11 +1,10 @@
 package com.dongnv.movie_website.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,11 +13,15 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Studio {
+public class Series {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    String movieId;
+    int season;
+    int totalEpisodes;
 
-    String name;
-    String description;
+    @OneToMany
+    @JoinColumn(name = "seriesId")
+    Set<Episode> episodes;
 }

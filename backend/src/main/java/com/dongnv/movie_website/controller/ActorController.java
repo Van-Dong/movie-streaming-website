@@ -38,7 +38,7 @@ public class ActorController {
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "0") @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
             @RequestParam(defaultValue = "10")
-                    @Min(value = 0, message = "PAGE_SIZE_INVALID")
+                    @Min(value = 1, message = "PAGE_SIZE_INVALID")
                     @Max(value = 20, message = "PAGE_SIZE_INVALID")
                     int size) {
         query = "%" + query + "%";

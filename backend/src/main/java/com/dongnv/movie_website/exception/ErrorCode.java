@@ -33,6 +33,7 @@ public enum ErrorCode {
     GET_LIST_OBJECTS_IN_S3_FAILED(1022, "Get list objects in s3 failed", HttpStatus.INTERNAL_SERVER_ERROR),
     MOVIE_NOT_FOUND(1023, "Movie not found", HttpStatus.BAD_REQUEST),
     ACTOR_NOT_FOUND(1024, "Actor not found", HttpStatus.BAD_REQUEST),
+    DIRECTOR_NOT_FOUND(1025, "Director not found", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

@@ -141,7 +141,12 @@ public class AwsS3Service {
 
     public void deleteByUrl(String url) {
         String key = url.substring(url.indexOf(publicFolder + "/"));
-        deleteFile(key);
+        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+
+        s3Client.deleteObject(deleteObjectRequest);
     }
 
     public String getPreSignedUrl(String objectKey, long minuteDuration) {

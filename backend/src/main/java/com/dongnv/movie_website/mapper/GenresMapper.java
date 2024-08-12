@@ -3,15 +3,15 @@ package com.dongnv.movie_website.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import com.dongnv.movie_website.dto.request.CategoryRequest;
-import com.dongnv.movie_website.dto.response.CategoryResponse;
+import com.dongnv.movie_website.dto.request.movie.GenreRequest;
+import com.dongnv.movie_website.dto.response.GenreResponse;
 import com.dongnv.movie_website.entity.Genres;
 
 @Mapper(componentModel = "spring")
 public interface GenresMapper {
-    Genres toCategory(CategoryRequest request);
+    Genres toCategory(GenreRequest request);
 
-    CategoryResponse toCategoryResponse(Genres genre);
+    GenreResponse toCategoryResponse(Genres genre);
 
-    void updateCategory(@MappingTarget Genres genre, CategoryRequest request);
+    void updateCategory(@MappingTarget Genres genre, GenreRequest request);
 }

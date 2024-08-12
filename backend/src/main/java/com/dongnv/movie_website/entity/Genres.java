@@ -1,7 +1,6 @@
 package com.dongnv.movie_website.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +14,14 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Genres {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+
+    @Column(
+            name = "name",
+            unique = true,
+            nullable = false,
+            columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String name;
 
     String description;

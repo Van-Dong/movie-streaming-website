@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -116,6 +117,8 @@ public class AwsS3Service {
     }
 
     public void deleteFile(String objectKey) {
+        if (Objects.isNull(objectKey)) return;
+
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
                 .bucket(bucketName)
                 .key(folderName + "/" + objectKey)
@@ -140,11 +143,11 @@ public class AwsS3Service {
     }
 
     public void deleteByUrl(String url) {
+        if (Objects.isNull(url)) return;
+
         String key = url.substring(url.indexOf(publicFolder + "/"));
-        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .build();
+        DeleteObjectRequest deleteObjectRequest =
+                DeleteObjectRequest.builder().bucket(bucketName).key(key).build();
 
         s3Client.deleteObject(deleteObjectRequest);
     }

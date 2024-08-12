@@ -1,6 +1,5 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.response;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StudioRequest {
-    @NotNull(message = "NOT_NULL")
+public class GenreResponse {
+    long id;
     String name;
     String description;
 }

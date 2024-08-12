@@ -1,11 +1,12 @@
 package com.dongnv.movie_website.entity;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Getter
 @Setter
@@ -25,23 +26,41 @@ public class Movie {
     String description;
     String producingCountry;
     int yearOfRelease;
-    boolean isSeries;
-    boolean status;
+    boolean full;
+
+    @Builder.Default
+    boolean isPrivate = false;
 
     int duration; // minutes
-    String posterURL;
+    String posterUrl;
+    String trailerUrl;
     String movieKey;
-    String trailerKey;
 
-    @OneToMany
+    @Builder.Default
+    boolean series = false;
+
+    @ManyToOne
+    @JoinColumn(name = "studio_id")
+    Studio studio;
+
+    @ManyToMany
+    Set<Genres> genres;
+
+    @ManyToMany
+    Set<Actor> actors;
+
+    @ManyToMany
+    Set<Director> directors;
+
+    @ManyToMany
+    Set<Character> characters;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "movieId")
-    Set<Series> series;
+    Set<Series> seriesSet;
 
-    //    Studio studio;
-    //    Set<Category> categories;
-    //    Set<Genres> genres;
-    //    Set<Director> directors;
-//    Set<Character> characters;
-
-
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "movieId")
+    Set<Comment> comments;
 }

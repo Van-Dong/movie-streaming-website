@@ -1,8 +1,10 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.movie;
 
 import jakarta.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.dongnv.movie_website.validator.FileConstraint;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,9 +14,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ActorRequest {
+public class EpisodeRequest {
     @NotNull(message = "NOT_NULL")
-    String name;
+    int episodeNumber;
 
-    MultipartFile portraitFile;
+    @FileConstraint(type = "video", message = "TYPE_OF_VIDEO_NOT_SUPPORTED")
+    MultipartFile episodeMovieFile;
 }

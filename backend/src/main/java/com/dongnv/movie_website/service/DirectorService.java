@@ -1,22 +1,24 @@
 package com.dongnv.movie_website.service;
 
-import com.dongnv.movie_website.dto.request.DirectorRequest;
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.dongnv.movie_website.dto.request.person.DirectorRequest;
 import com.dongnv.movie_website.dto.response.DirectorResponse;
 import com.dongnv.movie_website.entity.Director;
 import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
 import com.dongnv.movie_website.mapper.DirectorMapper;
 import com.dongnv.movie_website.repository.DirectorRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -38,14 +40,14 @@ public class DirectorService {
     }
 
     public List<DirectorResponse> getDirectors(String query, int page, int size) {
-        List<Director> directors = directorRepository.findAllByNameLike(query, PageRequest.of(page, size, Sort.by("name")));
+        List<Director> directors =
+                directorRepository.findAllByNameLike(query, PageRequest.of(page, size, Sort.by("name")));
         return directors.stream().map(directorMapper::toDirectorResponse).toList();
     }
 
     public DirectorResponse updateDirector(long id, DirectorRequest request) {
-        Director director = directorRepository.findById(id).orElseThrow(
-                () -> new AppException(ErrorCode.DIRECTOR_NOT_FOUND)
-        );
+        Director director =
+                directorRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.DIRECTOR_NOT_FOUND));
         directorMapper.updatedDirector(director, request);
         if (Objects.nonNull(request.getPortraitFile())) {
             awsS3Service.deleteByUrl(director.getPortraitUrl());
@@ -60,5 +62,4 @@ public class DirectorService {
     public void deleteDirector(long id) {
         directorRepository.deleteById(id);
     }
-
 }

@@ -8,9 +8,9 @@ import jakarta.validation.constraints.Min;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.dongnv.movie_website.dto.request.CategoryRequest;
+import com.dongnv.movie_website.dto.request.movie.GenreRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
-import com.dongnv.movie_website.dto.response.CategoryResponse;
+import com.dongnv.movie_website.dto.response.GenreResponse;
 import com.dongnv.movie_website.service.GenresService;
 
 import lombok.AccessLevel;
@@ -27,7 +27,7 @@ public class GenresController {
     GenresService genresService;
 
     @GetMapping
-    ApiResponse<List<CategoryResponse>> getCategories(
+    ApiResponse<List<GenreResponse>> getCategories(
             @RequestParam(defaultValue = "0") @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
             @RequestParam(defaultValue = "10")
                     @Min(value = 1, message = "PAGE_SIZE_INVALID")
@@ -35,29 +35,28 @@ public class GenresController {
                     int size,
             @RequestParam(defaultValue = "") String query) {
         query = "%" + query + "%";
-        return ApiResponse.<List<CategoryResponse>>builder()
-                .result(genresService.getCategories(query, page, size))
+        return ApiResponse.<List<GenreResponse>>builder()
+                .result(genresService.getGenres(query, page, size))
                 .build();
     }
 
     @PostMapping
-    ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest request) {
-        return ApiResponse.<CategoryResponse>builder()
-                .result(genresService.createCategory(request))
+    ApiResponse<GenreResponse> createCategory(@RequestBody @Valid GenreRequest request) {
+        return ApiResponse.<GenreResponse>builder()
+                .result(genresService.createGenre(request))
                 .build();
     }
 
-    @PutMapping("/{name}")
-    ApiResponse<CategoryResponse> updateCategory(
-            @PathVariable String name, @RequestBody @Valid CategoryRequest request) {
-        return ApiResponse.<CategoryResponse>builder()
-                .result(genresService.updateCategory(name, request))
+    @PutMapping("/{id}")
+    ApiResponse<GenreResponse> updateCategory(@PathVariable long id, @RequestBody @Valid GenreRequest request) {
+        return ApiResponse.<GenreResponse>builder()
+                .result(genresService.updateGenre(id, request))
                 .build();
     }
 
-    @DeleteMapping("/{name}")
-    ApiResponse<Void> deleteCategory(@PathVariable String name) {
-        genresService.deleteCategory(name);
+    @DeleteMapping("/{id}")
+    ApiResponse<Void> deleteCategory(@PathVariable long id) {
+        genresService.deleteGenre(id);
         return ApiResponse.<Void>builder().build();
     }
 }

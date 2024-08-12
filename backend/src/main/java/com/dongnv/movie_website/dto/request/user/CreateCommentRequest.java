@@ -1,7 +1,6 @@
-package com.dongnv.movie_website.dto.request;
+package com.dongnv.movie_website.dto.request.user;
 
 import jakarta.validation.constraints.NotNull;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,9 +9,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryRequest {
-    @NotNull(message = "NOT_NULL")
-    String name;
+public class CreateCommentRequest {
 
-    String description;
+    @NotNull(message = "NOT_NULL")
+    String comment;
+
+    @NotNull(message = "NOT_NULL")
+    String movieId;
 }

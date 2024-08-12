@@ -1,5 +1,9 @@
 package com.dongnv.movie_website.dto.response;
 
+import java.util.Set;
+
+import com.dongnv.movie_website.entity.Episode;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,7 +12,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryResponse {
-    String name;
-    String description;
+public class SeriesResponse {
+    long id;
+    String movieId;
+    int season;
+    int totalEpisodes;
+    Set<Episode> episodes;
 }

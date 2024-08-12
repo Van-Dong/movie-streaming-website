@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.dongnv.movie_website.entity.Genres;
 
 @Repository
-public interface GenresRepository extends JpaRepository<Genres, String> {
+public interface GenresRepository extends JpaRepository<Genres, Long> {
     List<Genres> findAllByNameLike(String name, Pageable pageable);
 
     List<Genres> findAllByNameLikeOrDescriptionLike(String name, String description, Pageable page);

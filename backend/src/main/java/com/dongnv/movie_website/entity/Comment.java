@@ -1,11 +1,11 @@
 package com.dongnv.movie_website.entity;
 
-import java.util.Set;
-
 import jakarta.persistence.*;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,16 +14,17 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Series {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+//    String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    User user;
     String movieId;
-    int season;
-    int totalEpisodes;
+    String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "seriesId")
-    Set<Episode> episodes;
+    @CreationTimestamp
+    LocalDateTime createdAt;
 }

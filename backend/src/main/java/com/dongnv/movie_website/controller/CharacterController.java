@@ -1,20 +1,22 @@
 package com.dongnv.movie_website.controller;
 
-import com.dongnv.movie_website.dto.request.CharacterRequest;
-import com.dongnv.movie_website.dto.response.ApiResponse;
-import com.dongnv.movie_website.dto.response.CharacterResponse;
-import com.dongnv.movie_website.entity.Character;
-import com.dongnv.movie_website.service.CharacterService;
+import java.util.List;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+
+import org.springframework.web.bind.annotation.*;
+
+import com.dongnv.movie_website.dto.request.person.CharacterRequest;
+import com.dongnv.movie_website.dto.response.ApiResponse;
+import com.dongnv.movie_website.dto.response.CharacterResponse;
+import com.dongnv.movie_website.service.CharacterService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,10 +34,13 @@ public class CharacterController {
     }
 
     @GetMapping
-    ApiResponse<List<CharacterResponse>> getCharacters(@RequestParam(defaultValue = "") String query,
-                                                       @RequestParam(defaultValue = "0") @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
-                                                       @RequestParam(defaultValue = "10") @Min(value = 1, message = "PAGE_SIZE_INVALID")
-                                                       @Max(value = 20, message = "PAGE_SIZE_INVALID") int size) {
+    ApiResponse<List<CharacterResponse>> getCharacters(
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "0") @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
+            @RequestParam(defaultValue = "10")
+                    @Min(value = 1, message = "PAGE_SIZE_INVALID")
+                    @Max(value = 20, message = "PAGE_SIZE_INVALID")
+                    int size) {
         query = "%" + query + "%";
         return ApiResponse.<List<CharacterResponse>>builder()
                 .result(characterService.getCharacters(query, page, size))

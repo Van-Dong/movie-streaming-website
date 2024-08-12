@@ -23,8 +23,8 @@ public enum ErrorCode {
     EMAIL_NOT_VERIFIED(1012, "Email is not verified", HttpStatus.BAD_REQUEST),
     NOT_FOUND_404(1013, "No resource found in this endpoint", HttpStatus.NOT_FOUND),
     NOT_NULL(1014, "Field mustn't be null!", HttpStatus.BAD_REQUEST),
-    CATEGORY_NOT_EXISTED(1015, "Category not exist", HttpStatus.BAD_REQUEST),
-    CATEGORY_EXISTED(1016, "Category existed", HttpStatus.BAD_REQUEST),
+    GENRE_NOT_EXISTED(1015, "Genre not exist", HttpStatus.BAD_REQUEST),
+    GENRE_EXISTED(1016, "Genre existed", HttpStatus.BAD_REQUEST),
     PAGE_NUMBER_INVALID(1017, "Page number must be at least 0", HttpStatus.BAD_REQUEST),
     PAGE_SIZE_INVALID(1018, "Page size must be in range [1, 20]", HttpStatus.BAD_REQUEST),
     INVALID_VALIDITY_PERIOD(1019, "Validity period must be at least 1", HttpStatus.BAD_REQUEST),
@@ -35,7 +35,12 @@ public enum ErrorCode {
     ACTOR_NOT_FOUND(1024, "Actor not found", HttpStatus.BAD_REQUEST),
     DIRECTOR_NOT_FOUND(1025, "Director not found", HttpStatus.BAD_REQUEST),
     CHARACTER_NOT_FOUND(1026, "Character not found", HttpStatus.BAD_REQUEST),
-    STUDIO_NOT_FOUND(1026, "Studio not found", HttpStatus.BAD_REQUEST),
+    STUDIO_NOT_FOUND(1027, "Studio not found", HttpStatus.BAD_REQUEST),
+    TYPE_OF_VIDEO_NOT_SUPPORTED(1028, "Type of video not supported", HttpStatus.BAD_REQUEST),
+    TYPE_OF_IMAGE_NOT_SUPPORTED(1029, "Type of image not supported", HttpStatus.BAD_REQUEST),
+    SERIES_NOT_FOUND(1029, "Series not found", HttpStatus.BAD_REQUEST),
+    EPISODE_NOT_FOUND_WITH_ID(1030, "Episode not found with id", HttpStatus.BAD_REQUEST),
+    COMMENT_NOT_FOUND(1029, "Comment not found", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

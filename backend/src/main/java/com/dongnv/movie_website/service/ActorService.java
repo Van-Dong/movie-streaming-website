@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.dongnv.movie_website.dto.request.ActorRequest;
+import com.dongnv.movie_website.dto.request.person.ActorRequest;
 import com.dongnv.movie_website.dto.response.ActorResponse;
 import com.dongnv.movie_website.entity.Actor;
 import com.dongnv.movie_website.exception.AppException;

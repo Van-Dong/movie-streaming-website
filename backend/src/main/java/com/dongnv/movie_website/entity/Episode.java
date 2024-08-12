@@ -4,10 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,8 +20,11 @@ import java.time.LocalDate;
 public class Episode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
-    long seriesId;
+    Long id;
+
+    @JsonIgnore
+    Long seriesId;
+
     int episodeNumber;
-    String url;
+    String episodeKey;
 }

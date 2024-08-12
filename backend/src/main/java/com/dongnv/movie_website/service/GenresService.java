@@ -2,12 +2,13 @@ package com.dongnv.movie_website.service;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.dongnv.movie_website.dto.request.CategoryRequest;
-import com.dongnv.movie_website.dto.response.CategoryResponse;
+import com.dongnv.movie_website.dto.request.movie.GenreRequest;
+import com.dongnv.movie_website.dto.response.GenreResponse;
 import com.dongnv.movie_website.entity.Genres;
 import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
@@ -27,28 +28,32 @@ public class GenresService {
     GenresRepository genresRepository;
     GenresMapper genresMapper;
 
-    public CategoryResponse createCategory(CategoryRequest request) {
-        if (genresRepository.existsById(request.getName())) throw new AppException(ErrorCode.CATEGORY_EXISTED);
+    public GenreResponse createGenre(GenreRequest request) {
         Genres c = genresMapper.toCategory(request);
-        genresRepository.save(c);
+        try {
+            genresRepository.save(c);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.GENRE_EXISTED);
+        }
+
         return genresMapper.toCategoryResponse(c);
     }
 
-    public List<CategoryResponse> getCategories(String query, int page, int size) {
+    public List<GenreResponse> getGenres(String query, int page, int size) {
         List<Genres> categories =
                 genresRepository.findAllByNameLike(query, PageRequest.of(page, size, Sort.by("name")));
         return categories.stream().map(genresMapper::toCategoryResponse).toList();
     }
 
-    public CategoryResponse updateCategory(String name, CategoryRequest request) {
-        Genres c = genresRepository.findById(name).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTED));
+    public GenreResponse updateGenre(long id, GenreRequest request) {
+        Genres c = genresRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.GENRE_NOT_EXISTED));
 
         genresMapper.updateCategory(c, request);
         genresRepository.save(c);
         return genresMapper.toCategoryResponse(c);
     }
 
-    public void deleteCategory(String name) {
-        genresRepository.deleteById(name);
+    public void deleteGenre(long id) {
+        genresRepository.deleteById(id);
     }
 }

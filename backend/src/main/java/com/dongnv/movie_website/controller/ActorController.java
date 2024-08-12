@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Min;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.dongnv.movie_website.dto.request.ActorRequest;
+import com.dongnv.movie_website.dto.request.person.ActorRequest;
 import com.dongnv.movie_website.dto.response.ActorResponse;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.service.ActorService;

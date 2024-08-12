@@ -1,6 +1,9 @@
 package com.dongnv.movie_website.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Set;
+
+import com.dongnv.movie_website.entity.*;
+import com.dongnv.movie_website.entity.Character;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,11 +17,22 @@ public class MovieResponse {
 
     String id;
     String title;
+    String nativeTitle;
     String description;
     String producingCountry;
     int yearOfRelease;
-    boolean isSeries = false;
+    boolean series;
+    boolean full;
+    boolean isPrivate;
+    int duration; // minutes
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    String urlTemp;
+    String posterUrl;
+    String trailerUrl;
+    String movieKey;
+
+    Studio studio;
+    Set<Genres> genres;
+    Set<Director> directors;
+    Set<Character> characters;
+    Set<Series> seriesSet;
 }

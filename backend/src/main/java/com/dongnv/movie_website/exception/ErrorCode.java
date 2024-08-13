@@ -41,6 +41,7 @@ public enum ErrorCode {
     SERIES_NOT_FOUND(1029, "Series not found", HttpStatus.BAD_REQUEST),
     EPISODE_NOT_FOUND_WITH_ID(1030, "Episode not found with id", HttpStatus.BAD_REQUEST),
     COMMENT_NOT_FOUND(1029, "Comment not found", HttpStatus.BAD_REQUEST),
+    INVALID_RATING_NUMBER(1030, "Rating number must in range [1, 10]", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

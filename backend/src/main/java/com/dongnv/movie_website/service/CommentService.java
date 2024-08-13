@@ -9,6 +9,7 @@ import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
 import com.dongnv.movie_website.mapper.CommentMapper;
 import com.dongnv.movie_website.repository.CommentRepository;
+import com.dongnv.movie_website.repository.MovieRepository;
 import com.dongnv.movie_website.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,12 @@ public class CommentService {
     CommentRepository commentRepository;
     CommentMapper commentMapper;
     UserRepository userRepository;
+    MovieRepository movieRepository;
 
     public CommentResponse createComment(CreateCommentRequest request) {
+        if (!movieRepository.existsById(request.getMovieId()))
+            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
+
         Comment comment = commentMapper.toComment(request);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow(

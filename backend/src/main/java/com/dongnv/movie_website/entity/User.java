@@ -50,4 +50,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     Set<Comment> comments;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "userId")
+    Set<Rating> ratings;
 }

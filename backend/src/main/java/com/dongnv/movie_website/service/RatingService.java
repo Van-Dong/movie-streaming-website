@@ -32,9 +32,6 @@ public class RatingService {
 
     public UserRatingResponse ratingMovie(UserRatingRequest request) {
         String movieId = request.getMovieId();
-        if (!movieRepository.existsById(movieId))
-            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
-
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED)

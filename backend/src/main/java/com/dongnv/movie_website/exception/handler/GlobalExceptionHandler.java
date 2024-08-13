@@ -1,5 +1,6 @@
 package com.dongnv.movie_website.exception.handler;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mail.MailSendException;
@@ -107,6 +108,18 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiResponse<Void>> handlingHttpMessageNotReadableException(
             HttpMessageNotReadableException exception) {
         ErrorCode errorCode = ErrorCode.MISSING_REQUEST_BODY;
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.<Void>builder()
+                        .status(false)
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    ResponseEntity<ApiResponse<Void>> handlingDataIntegrityViolationException(
+            DataIntegrityViolationException exception) {
+        ErrorCode errorCode = ErrorCode.DATA_INTEGRITY_VIOLATION;
         return ResponseEntity.status(errorCode.getHttpStatusCode())
                 .body(ApiResponse.<Void>builder()
                         .status(false)

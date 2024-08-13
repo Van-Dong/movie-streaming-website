@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "rating", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "movie_id"}))
-public class Rating {
+@Table(name = "user_favorite", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "movie_id"}))
+public class UserFavorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -26,11 +25,7 @@ public class Rating {
 
     @Column(name = "user_id")
     String userId;
-    Integer userRating;
 
     @CreationTimestamp
     LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    LocalDateTime updatedAt;
 }

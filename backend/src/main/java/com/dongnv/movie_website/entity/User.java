@@ -53,6 +53,11 @@ public class User {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     Set<Rating> ratings;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    Set<UserFavorite> userFavorites;
 }

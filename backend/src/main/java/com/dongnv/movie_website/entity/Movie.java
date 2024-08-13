@@ -66,6 +66,11 @@ public class Movie {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "movieId")
+    @JoinColumn(name = "movie_id")
     Set<Rating> ratings;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "movie_id")
+    Set<UserFavorite> userFavorites;
 }

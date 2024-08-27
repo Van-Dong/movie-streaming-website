@@ -1,0 +1,21 @@
+{
+    "short_name": "Movie website",
+    "name": "Movie website",
+    "icons": [
+      {
+        "src": "vite.svg",
+        "sizes": "64x64",
+        "type": "image/webp"
+      },
+      {
+        "src": "vite.svg",
+        "sizes": "128x128",
+        "type": "image/webp"
+      }
+    ],
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#ffffff"
+  }
+  

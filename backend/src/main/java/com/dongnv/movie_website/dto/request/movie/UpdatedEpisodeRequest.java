@@ -1,10 +1,13 @@
 package com.dongnv.movie_website.dto.request.movie;
 
-import com.dongnv.movie_website.validator.FileConstraint;
 import jakarta.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.dongnv.movie_website.validator.FileConstraint;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder

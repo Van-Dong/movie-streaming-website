@@ -1,12 +1,14 @@
 package com.dongnv.movie_website.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -26,6 +28,7 @@ public class Rating {
 
     @Column(name = "user_id")
     String userId;
+
     Integer userRating;
 
     @CreationTimestamp

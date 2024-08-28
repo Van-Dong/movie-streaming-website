@@ -1,11 +1,13 @@
 package com.dongnv.movie_website.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -19,9 +21,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-//    String userId;
+    //    String userId;
     @ManyToOne(fetch = FetchType.LAZY)
     User user;
+
     String movieId;
     String comment;
 

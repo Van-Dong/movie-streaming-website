@@ -1,5 +1,12 @@
 package com.dongnv.movie_website.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.dongnv.movie_website.dto.request.user.CreateCommentRequest;
 import com.dongnv.movie_website.dto.request.user.UpdateCommentRequest;
 import com.dongnv.movie_website.dto.response.CommentResponse;
@@ -11,16 +18,11 @@ import com.dongnv.movie_website.mapper.CommentMapper;
 import com.dongnv.movie_website.repository.CommentRepository;
 import com.dongnv.movie_website.repository.MovieRepository;
 import com.dongnv.movie_website.repository.UserRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,14 +35,12 @@ public class CommentService {
     MovieRepository movieRepository;
 
     public CommentResponse createComment(CreateCommentRequest request) {
-        if (!movieRepository.existsById(request.getMovieId()))
-            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
+        if (!movieRepository.existsById(request.getMovieId())) throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
 
         Comment comment = commentMapper.toComment(request);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
-        );
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         comment.setUser(user);
         comment = commentRepository.save(comment);
@@ -51,24 +51,24 @@ public class CommentService {
     }
 
     public List<CommentResponse> getComment(String movieId, int page, int size) {
-        List<Comment> comments = commentRepository.findAllByMovieId(movieId,
-                PageRequest.of(page, size, Sort.by("createdAt").descending()));
+        List<Comment> comments = commentRepository.findAllByMovieId(
+                movieId, PageRequest.of(page, size, Sort.by("createdAt").descending()));
 
-        return comments.stream().map(c -> {
-            var cr = commentMapper.toCommentResponse(c);
-            cr.setUsername(c.getUser().getUsername());
-            return cr;
-        }).toList();
+        return comments.stream()
+                .map(c -> {
+                    var cr = commentMapper.toCommentResponse(c);
+                    cr.setUsername(c.getUser().getUsername());
+                    return cr;
+                })
+                .toList();
     }
 
     public CommentResponse updateComment(Long id, UpdateCommentRequest request) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new AppException(ErrorCode.COMMENT_NOT_FOUND)
-        );
+        Comment comment =
+                commentRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND));
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!username.equals(comment.getUser().getUsername()))
-            throw new AppException(ErrorCode.UNAUTHORIZED);
+        if (!username.equals(comment.getUser().getUsername())) throw new AppException(ErrorCode.UNAUTHORIZED);
 
         comment.setComment(request.getComment());
         commentRepository.save(comment);
@@ -79,13 +79,11 @@ public class CommentService {
     }
 
     public void deleteComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new AppException(ErrorCode.COMMENT_NOT_FOUND)
-        );
+        Comment comment =
+                commentRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND));
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!username.equals(comment.getUser().getUsername()))
-            throw new AppException(ErrorCode.UNAUTHORIZED);
+        if (!username.equals(comment.getUser().getUsername())) throw new AppException(ErrorCode.UNAUTHORIZED);
 
         commentRepository.deleteById(id);
     }

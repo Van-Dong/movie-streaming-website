@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaHeart, FaSearch } from "react-icons/fa";
 import { CgUser } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile } from "../../services/userServices";
+import { getDetailUserAction } from "../../redux/actions/userActions";
 
 const NavBar = () => {
   const hover = "hover:text-subMain transitions text-white";
   const Hover = ({ isActive }) => (isActive ? "text-subMain" : hover);
+  const { auth } = useSelector((state) => state.userLogin);
+  const { userInfo } = useSelector((state) => state.userDetail);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth && !userInfo) {
+      // fetch userInfo and dispatch to redux
+      dispatch(getDetailUserAction());
+    }
+  }, [auth, userInfo, dispatch]);
+
   return (
     <>
       <div className="bg-main shadow-md sticky top-0 z-20">
@@ -49,9 +63,19 @@ const NavBar = () => {
             <NavLink to="/contact-us" className={Hover}>
               Contact Us
             </NavLink>
-            <NavLink to="/login" className={Hover}>
-              <CgUser className="w-8 h-8" />
-            </NavLink>
+
+            {auth && userInfo ? (
+              <NavLink to="/profile" className={Hover}>
+                <div className="w-8 h-8 flex-colo rounded-full bg-dryGray text-main capitalize">
+                  {userInfo.username[0]}
+                </div>
+              </NavLink>
+            ) : (
+              <NavLink to="/login" className={Hover}>
+                <CgUser className="w-8 h-8" />
+              </NavLink>
+            )}
+
             <NavLink
               to="/favorite"
               className={(isActive) => `${Hover(isActive)} relative`}

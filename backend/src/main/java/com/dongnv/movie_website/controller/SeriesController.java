@@ -2,12 +2,12 @@ package com.dongnv.movie_website.controller;
 
 import java.util.List;
 
-import com.dongnv.movie_website.dto.request.movie.UpdateSeriesRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
 import com.dongnv.movie_website.dto.request.movie.SeriesRequest;
+import com.dongnv.movie_website.dto.request.movie.UpdateSeriesRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.SeriesResponse;
 import com.dongnv.movie_website.service.SeriesService;
@@ -40,7 +40,8 @@ public class SeriesController {
     }
 
     @PutMapping("/{id}")
-    ApiResponse<SeriesResponse> updateSeries(@PathVariable long id, @Valid @ModelAttribute UpdateSeriesRequest request) {
+    ApiResponse<SeriesResponse> updateSeries(
+            @PathVariable long id, @Valid @ModelAttribute UpdateSeriesRequest request) {
         return ApiResponse.<SeriesResponse>builder()
                 .result(seriesService.updateSeries(id, request))
                 .build();

@@ -1,5 +1,10 @@
 package com.dongnv.movie_website.service;
 
+import java.util.Optional;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.dongnv.movie_website.dto.request.user.UserRatingRequest;
 import com.dongnv.movie_website.dto.response.MovieRatingResponse;
 import com.dongnv.movie_website.dto.response.UserRatingResponse;
@@ -11,14 +16,11 @@ import com.dongnv.movie_website.mapper.RatingMapper;
 import com.dongnv.movie_website.repository.MovieRepository;
 import com.dongnv.movie_website.repository.RatingRepository;
 import com.dongnv.movie_website.repository.UserRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +35,8 @@ public class RatingService {
     public UserRatingResponse ratingMovie(UserRatingRequest request) {
         String movieId = request.getMovieId();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
-        );
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         Optional<Rating> ratingOptional = ratingRepository.findByUserIdAndMovieId(user.getId(), movieId);
 
@@ -59,11 +60,11 @@ public class RatingService {
 
     public UserRatingResponse getMovieRating(String movieId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
-        );
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Rating rating = ratingRepository.findByUserIdAndMovieId(user.getId(), movieId).orElse(new Rating());
+        Rating rating =
+                ratingRepository.findByUserIdAndMovieId(user.getId(), movieId).orElse(new Rating());
 
         return UserRatingResponse.builder()
                 .avg(ratingRepository.findAverageRatingByMovieId(movieId))
@@ -79,6 +80,4 @@ public class RatingService {
                 .count(ratingRepository.countRatingByMovieId(movieId))
                 .build();
     }
-
-
 }

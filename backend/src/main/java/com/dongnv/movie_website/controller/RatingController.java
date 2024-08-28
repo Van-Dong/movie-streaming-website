@@ -1,16 +1,19 @@
 package com.dongnv.movie_website.controller;
 
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.dongnv.movie_website.dto.request.user.UserRatingRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.MovieRatingResponse;
 import com.dongnv.movie_website.dto.response.UserRatingResponse;
 import com.dongnv.movie_website.service.RatingService;
-import jakarta.validation.Valid;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor

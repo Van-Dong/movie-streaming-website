@@ -1,11 +1,11 @@
 package com.dongnv.movie_website.mapper;
 
-import com.dongnv.movie_website.dto.request.movie.UpdateSeriesRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.dongnv.movie_website.dto.request.movie.SeriesRequest;
+import com.dongnv.movie_website.dto.request.movie.UpdateSeriesRequest;
 import com.dongnv.movie_website.dto.response.SeriesResponse;
 import com.dongnv.movie_website.entity.Series;
 

@@ -3,19 +3,19 @@ package com.dongnv.movie_website.service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.dongnv.movie_website.dto.request.movie.UpdateSeriesRequest;
-import com.dongnv.movie_website.mapper.EpisodeMapper;
-import com.dongnv.movie_website.repository.EpisodeRepository;
 import org.springframework.stereotype.Service;
 
 import com.dongnv.movie_website.dto.request.movie.SeriesRequest;
+import com.dongnv.movie_website.dto.request.movie.UpdateSeriesRequest;
 import com.dongnv.movie_website.dto.response.SeriesResponse;
 import com.dongnv.movie_website.entity.Episode;
 import com.dongnv.movie_website.entity.Movie;
 import com.dongnv.movie_website.entity.Series;
 import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
+import com.dongnv.movie_website.mapper.EpisodeMapper;
 import com.dongnv.movie_website.mapper.SeriesMapper;
+import com.dongnv.movie_website.repository.EpisodeRepository;
 import com.dongnv.movie_website.repository.MovieRepository;
 import com.dongnv.movie_website.repository.SeriesRepository;
 
@@ -49,8 +49,8 @@ public class SeriesService {
                         .episodeKey(
                                 Objects.nonNull(episode.getEpisodeMovieFile())
                                         ? awsS3Service.uploadVideo(
-                                        episode.getEpisodeMovieFile(),
-                                        movie.getTitle() + "-" + "tap" + "-" + episode.getEpisodeNumber())
+                                                episode.getEpisodeMovieFile(),
+                                                movie.getTitle() + "-" + "tap" + "-" + episode.getEpisodeNumber())
                                         : null)
                         .build());
             });
@@ -83,22 +83,24 @@ public class SeriesService {
             request.getEpisodes().forEach(episode -> {
                 if (Objects.nonNull(episode.getId())) {
                     if (!episodeMap.containsKey(episode.getId()))
-                            throw new AppException(ErrorCode.EPISODE_NOT_FOUND_WITH_ID);
+                        throw new AppException(ErrorCode.EPISODE_NOT_FOUND_WITH_ID);
 
                     Episode e = episodeMap.get(episode.getId());
                     episodeMapper.updatedEpisode(e, episode);
 
                     if (Objects.nonNull(episode.getEpisodeMovieFile()))
-                        e.setEpisodeKey(awsS3Service.uploadVideo(episode.getEpisodeMovieFile(),
+                        e.setEpisodeKey(awsS3Service.uploadVideo(
+                                episode.getEpisodeMovieFile(),
                                 movie.getTitle() + "-" + "tap" + "-" + episode.getEpisodeNumber()));
                     newEpisodes.add(e);
                 } else {
                     Episode e = Episode.builder()
                             .episodeNumber(episode.getEpisodeNumber())
                             .episodeKey(
-                                    Objects.nonNull(episode.getEpisodeMovieFile()) ? awsS3Service.uploadVideo(
-                                            episode.getEpisodeMovieFile(),
-                                            movie.getTitle() + "-" + "tap" + "-" + episode.getEpisodeNumber())
+                                    Objects.nonNull(episode.getEpisodeMovieFile())
+                                            ? awsS3Service.uploadVideo(
+                                                    episode.getEpisodeMovieFile(),
+                                                    movie.getTitle() + "-" + "tap" + "-" + episode.getEpisodeNumber())
                                             : null)
                             .build();
                     newEpisodes.add(e);

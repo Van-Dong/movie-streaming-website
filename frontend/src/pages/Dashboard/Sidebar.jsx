@@ -10,57 +10,86 @@ import { FaHeart, FaListAlt, FaUsers } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { RiLockPasswordFill } from "react-icons/ri";
 import Layout from "../../layout/Layout";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/actions/userActions";
+import toast from "react-hot-toast";
+
+const adminSideLinks = [
+  {
+    name: "Dashboard",
+    link: "/admin/dashboard",
+    icon: BiSolidDashboard,
+  },
+  {
+    name: "Movie List",
+    link: "/admin/movieList",
+    icon: FaListAlt,
+  },
+  {
+    name: "Add movie",
+    link: "/admin/addmovie",
+    icon: BiSolidMovie,
+  },
+  {
+    name: "Categories",
+    link: "/admin/category",
+    icon: BiSolidCategory,
+  },
+  {
+    name: "Users",
+    link: "/admin/users",
+    icon: FaUsers,
+  },
+  {
+    name: "Update Profile",
+    link: "/profile",
+    icon: FiSettings,
+  },
+  {
+    name: "Favorites",
+    link: "/favorite",
+    icon: FaHeart,
+  },
+  {
+    name: "Change password",
+    link: "/password",
+    icon: RiLockPasswordFill,
+  },
+];
+
+const userSideLinks = [
+  {
+    name: "Update Profile",
+    link: "/profile",
+    icon: FiSettings,
+  },
+  {
+    name: "Favorites",
+    link: "/favorite",
+    icon: FaHeart,
+  },
+  {
+    name: "Change password",
+    link: "/password",
+    icon: RiLockPasswordFill,
+  },
+];
 
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
-  const sideLinks = [
-    {
-      name: "Dashboard",
-      link: "/admin/dashboard",
-      icon: BiSolidDashboard,
-    },
-    {
-      name: "Movie List",
-      link: "/admin/movieList",
-      icon: FaListAlt,
-    },
-    {
-      name: "Add movie",
-      link: "/admin/addmovie",
-      icon: BiSolidMovie,
-    },
-    {
-      name: "Categories",
-      link: "/admin/category",
-      icon: BiSolidCategory,
-    },
-    {
-      name: "Users",
-      link: "/admin/users",
-      icon: FaUsers,
-    },
-    {
-      name: "Update Profile",
-      link: "/profile",
-      icon: FiSettings,
-    },
-    {
-      name: "Favorites",
-      link: "/favorite",
-      icon: FaHeart,
-    },
-    {
-      name: "Change password",
-      link: "/password",
-      icon: RiLockPasswordFill,
-    },
-  ];
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.userDetail);
+  const sideLinks = userInfo?.roles.some((role) => role.name === "ADMIN")
+    ? adminSideLinks
+    : userInfo
+    ? userSideLinks
+    : [];
 
   const handleLogout = () => {
     dispatch(logoutAction());
+    navigate("/login");
+    toast.success("Logged out successfully!");
   };
 
   const active = "bg-dryGray text-subMain";
@@ -80,9 +109,13 @@ const Sidebar = ({ children }) => {
                 <link.icon /> <p>{link.name}</p>
               </NavLink>
             ))}
-            <NavLink to="/" className={Hover} onClick={handleLogout}>
+            <button
+              to="/"
+              className={`${inActive} ${hover} w-full`}
+              onClick={handleLogout}
+            >
               <BiLogOut /> <p>Logout</p>
-            </NavLink>
+            </button>
           </div>
 
           {/* Content */}

@@ -10,11 +10,12 @@ import { InlineError } from "../components/Notifications/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAction } from "../redux/actions/userActions";
 import toast from "react-hot-toast";
+import * as userConstants from "../redux/constants/userConstants";
 
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, isError, isSuccess } = useSelector(
+  const { isLoading, isError, isSuccess, userInfo } = useSelector(
     (state) => state.userRegister
   );
 
@@ -36,14 +37,16 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Register success!");
+      toast.success(`Register success with "${userInfo?.username}"!`);
+      dispatch({ type: userConstants.USER_REGISTER_RESET });
       navigate("/login");
+      toast.success("Please login");
     }
     if (isError) {
       toast.error(isError);
-      dispatch({ type: "USER_REGISTER_RESET" });
+      dispatch({ type: userConstants.USER_REGISTER_RESET });
     }
-  });
+  }, [isSuccess, isError, userInfo, navigate, dispatch]);
 
   if (auth) {
     return <Navigate to="/profile" />;
@@ -51,8 +54,6 @@ const Register = () => {
 
   return (
     <Layout>
-      {console.log("Error: ", errors)}
-      {console.log("re-render")}
       <div className="container mx-auto px-2 my-24 flex-colo">
         <form
           onSubmit={handleSubmit(onSubmit)}

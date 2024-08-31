@@ -32,3 +32,35 @@ export const registerValidation = yup.object().shape({
     .trim()
     .oneOf([yup.ref("password")], "Password must match"),
 });
+
+// update profile validation
+export const updateProfileValidation = yup.object().shape({
+  firstName: yup
+    .string()
+    .trim()
+    .min(2, "First name must be at least 2 characters"),
+  lastName: yup
+    .string()
+    .trim()
+    .min(2, "Last name must be at least 2 characters"),
+  email: yup.string().email().trim(),
+  // dob: yup.date(),
+});
+
+export const changePasswordValidation = yup.object().shape({
+  oldPassword: yup
+    .string()
+    .trim()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 character"),
+  newPassword: yup
+    .string()
+    .trim()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 character"),
+  confirmNewPassword: yup
+    .string()
+    .trim()
+    .required("Password is required")
+    .oneOf([yup.ref("newPassword")], "Confirm Password must match"),
+});

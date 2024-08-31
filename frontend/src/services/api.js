@@ -6,7 +6,12 @@ const Axios = axios.create({
   timeout: 3000, // Quá 5s thì trả về lỗi
 });
 
-const public_endpoint = ["/auth/refresh", "/auth/token", "/api/user/sign-up"];
+const public_endpoint = [
+  "/auth/refresh",
+  "/auth/token",
+  "/auth/logout",
+  "/api/user/sign-up",
+];
 
 Axios.interceptors.request.use(
   (config) => {

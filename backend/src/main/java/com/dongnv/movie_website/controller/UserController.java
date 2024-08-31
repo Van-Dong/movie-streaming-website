@@ -75,9 +75,22 @@ public class UserController {
                 .build();
     }
 
+    @PutMapping("/api/user/profile")
+    ApiResponse<UserResponse> updateMyInfo(@RequestBody @Valid UserUpdateRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateMyInfo(request))
+                .build();
+    }
+
     @PutMapping("/api/user/newPassword")
     ApiResponse<Void> changePassword(@RequestBody @Valid UserChangePasswordRequest request) {
         userService.changePassword(request);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/api/user/deleteAccount")
+    ApiResponse<Void> deleteAccount() {
+        userService.deleteMyAccount();
         return ApiResponse.<Void>builder().build();
     }
 }

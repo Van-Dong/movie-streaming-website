@@ -89,8 +89,25 @@ public class UserService {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
         User user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
         return userMapper.toUserResponse(user);
+    }
+
+    public UserResponse updateMyInfo(UserUpdateRequest request) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        userMapper.updateUser(user, request);
+        user = userRepository.save(user);
+        return userMapper.toUserResponse(user);
+    }
+
+    public void deleteMyAccount() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if (user.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getName())))
+            throw new AppException(ErrorCode.ADMIN_USER_NOT_REMOVED);
+        userRepository.delete(user);
     }
 
     public void upgradeAccount(String id, UpgradeAccountRequest request) {

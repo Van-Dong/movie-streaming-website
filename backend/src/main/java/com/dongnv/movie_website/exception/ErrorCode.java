@@ -43,6 +43,7 @@ public enum ErrorCode {
     COMMENT_NOT_FOUND(1029, "Comment not found", HttpStatus.BAD_REQUEST),
     INVALID_RATING_NUMBER(1030, "Rating number must in range [1, 10]", HttpStatus.BAD_REQUEST),
     DATA_INTEGRITY_VIOLATION(1031, "Data integrity violation", HttpStatus.BAD_REQUEST),
+    ADMIN_USER_NOT_REMOVED(1032, "Can't remove admin account", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String name, HttpStatusCode httpStatusCode) {

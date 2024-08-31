@@ -55,4 +55,55 @@ const getDetailUserAction = () => async (dispatch) => {
   }
 };
 
-export { loginAction, registerAction, logoutAction, getDetailUserAction };
+// Update profile user action
+const updateProfileUserAction = (data) => async (dispatch) => {
+  dispatch({ type: userConstants.USER_UPDATE_PROFILE_REQUEST });
+
+  try {
+    const response = await userApi.updateProfile(data);
+    dispatch({
+      type: userConstants.USER_UPDATE_PROFILE_SUCCESS,
+      payload: response.result,
+    });
+    dispatch({
+      type: userConstants.USER_DETAIL_SUCCESS,
+      payload: response.result,
+    });
+  } catch (error) {
+    ErrorsAction(error, dispatch, userConstants.USER_UPDATE_PROFILE_FAIL);
+  }
+};
+
+// user change password action
+const userChangePasswordAction = (data) => async (dispatch) => {
+  dispatch({ type: userConstants.USER_CHANGE_PASSWORD_REQUEST });
+  try {
+    await userApi.changePassword(data);
+    dispatch({ type: userConstants.USER_CHANGE_PASSWORD_SUCCESS });
+  } catch (error) {
+    ErrorsAction(error, dispatch, userConstants.USER_CHANGE_PASSWORD_FAIL);
+  }
+};
+
+// user delete account action
+const userDeleteAccountAction = () => async (dispatch) => {
+  dispatch({ type: userConstants.USER_DELETE_ACCOUNT_REQUEST });
+  try {
+    await userApi.deleteAccount();
+    dispatch({ type: userConstants.USER_DELETE_ACCOUNT_SUCCESS });
+    dispatch(logoutAction());
+    dispatch({ type: userConstants.USER_DELETE_ACCOUNT_RESET });
+  } catch (error) {
+    ErrorsAction(error, dispatch, userConstants.USER_DELETE_ACCOUNT_FAIL);
+  }
+};
+
+export {
+  loginAction,
+  registerAction,
+  logoutAction,
+  getDetailUserAction,
+  updateProfileUserAction,
+  userChangePasswordAction,
+  userDeleteAccountAction,
+};

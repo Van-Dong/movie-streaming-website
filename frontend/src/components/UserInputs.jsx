@@ -36,6 +36,7 @@ export const Input = ({
   register,
   // name,
   value,
+  disabled,
   // onChange,
 }) => {
   return (
@@ -46,6 +47,7 @@ export const Input = ({
         type={type}
         // name={name}
         value={value}
+        disabled={disabled ? true : false}
         // onChange={onChange}
         {...register}
         placeholder={placeholder}

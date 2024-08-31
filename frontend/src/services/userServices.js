@@ -7,7 +7,17 @@ const registerService = async (user) => {
 };
 
 // logout user
-const logoutService = () => {
+const logoutService = async () => {
+  const auth = localStorage.getItem("auth")
+    ? JSON.parse(localStorage.getItem("auth"))
+    : null;
+  if (auth?.refreshToken) {
+    try {
+      await Axios.post("/auth/logout", { token: auth.refreshToken });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   localStorage.removeItem("auth");
   localStorage.removeItem("userInfo");
   return null;
@@ -25,7 +35,6 @@ const loginService = async (user) => {
 // refresh token API call
 const refreshTokenService = async (token) => {
   const { data } = await Axios.post("/auth/refresh", token);
-  console.log(data);
   if (data) {
     localStorage.setItem(
       "auth",
@@ -39,20 +48,29 @@ const refreshTokenService = async (token) => {
   return data;
 };
 
-// const getProfile = async () => {
-//   const auth = localStorage.getItem("auth")
-//     ? JSON.parse(localStorage.getItem("auth"))
-//     : null;
-//   if (auth) {
-//     const { data } = await Axios.get("/api/user/profile");
-//     localStorage.setItem("userInfo", JSON.stringify(data.result));
-//     return data;
-//   }
-//   return null;
-// };
+// Get profile api
 const getProfile = async () => {
   const { data } = await Axios.get("/api/user/profile");
   localStorage.setItem("userInfo", JSON.stringify(data.result));
+  return data;
+};
+
+// Update profile api
+const updateProfile = async (updatedUser) => {
+  const { data } = await Axios.put("/api/user/profile", updatedUser);
+  localStorage.setItem("userInfo", JSON.stringify(data.result));
+  return data;
+};
+
+// change password api
+const changePassword = async (password) => {
+  const { data } = await Axios.put("/api/user/newPassword", password);
+  return data;
+};
+
+// delete account api
+const deleteAccount = async () => {
+  const { data } = await Axios.post("/api/user/deleteAccount");
   return data;
 };
 
@@ -62,4 +80,7 @@ export {
   logoutService,
   refreshTokenService,
   getProfile,
+  updateProfile,
+  changePassword,
+  deleteAccount,
 };

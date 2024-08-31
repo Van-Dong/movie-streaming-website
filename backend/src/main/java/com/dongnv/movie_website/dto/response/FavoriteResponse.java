@@ -1,5 +1,7 @@
 package com.dongnv.movie_website.dto.response;
 
+import com.dongnv.movie_website.entity.Movie;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,5 +12,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FavoriteResponse {
     Long id;
-    String movieId;
+    //    String movieId;
+    MovieFavoriteResponse movie;
 }

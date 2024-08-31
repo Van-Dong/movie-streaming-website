@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -22,9 +24,13 @@ public class UserFavorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "movie_id")
-    String movieId;
+    //    @Column(name = "movie_id")
+    //    String movieId;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    Movie movie;
 
+    @JsonIgnore
     @Column(name = "user_id")
     String userId;
 

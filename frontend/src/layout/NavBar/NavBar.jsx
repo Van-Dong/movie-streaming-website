@@ -17,7 +17,7 @@ const NavBar = () => {
       // fetch userInfo and dispatch to redux
       dispatch(getDetailUserAction());
     }
-  }, []);
+  }, [auth, userInfo, dispatch]);
 
   return (
     <>

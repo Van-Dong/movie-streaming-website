@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { loginValidation } from "../components/validation/UserValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InlineError } from "../components/Notifications/Error";
-import { getDetailUserAction, loginAction } from "../redux/actions/userActions";
+import { loginAction } from "../redux/actions/userActions";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -42,7 +42,7 @@ const Login = () => {
       toast.success(`welcome back to my website`);
     }
 
-    if (auth) {
+    if (auth?.refreshToken) {
       navigate("/profile");
     }
 
@@ -52,7 +52,7 @@ const Login = () => {
     }
   }, [auth, isSuccess, isError, navigate, dispatch]);
 
-  if (auth) return <Navigate to="/profile" />;
+  if (auth?.refreshToken) return <Navigate to="/profile" />;
 
   return (
     <Layout>

@@ -5,6 +5,9 @@ const rootReducer = combineReducers({
   userLogin: user.userLoginReducer,
   userRegister: user.userRegisterReducer,
   userDetail: user.userDetailReducer,
+  userUpdateProfile: user.userUpdateProfileReducer,
+  userChangePassword: user.userChangePasswordReducer,
+  userDeleteAccount: user.userDeleteAccountReducer,
 });
 
 const authInfoFromStorage = localStorage.getItem("auth")
@@ -24,4 +27,5 @@ const initialState = {
 export const store = configureStore({
   reducer: rootReducer,
   preloadedState: initialState,
+  devTools: true,
 });

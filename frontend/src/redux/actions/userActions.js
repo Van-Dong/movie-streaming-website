@@ -34,7 +34,6 @@ const registerAction = (data) => async (dispatch) => {
 const logoutAction = () => async (dispatch) => {
   userApi.logoutService();
   dispatch({ type: userConstants.USER_LOGOUT });
-  dispatch({ type: userConstants.USER_LOGIN_RESET });
   dispatch({ type: userConstants.USER_REGISTER_RESET });
   dispatch({ type: userConstants.USER_DETAIL_RESET });
 };

@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 const ToastContainer = () => {
   return (
     <Toaster
-      position="bottom-left"
+      position="top-left"
       reverseOrder={false}
       gutter={8}
       toastOptions={{

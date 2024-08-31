@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { loginValidation } from "../components/validation/UserValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InlineError } from "../components/Notifications/Error";
-import { loginAction } from "../redux/actions/userActions";
+import { getDetailUserAction, loginAction } from "../redux/actions/userActions";
 import toast from "react-hot-toast";
 
 const Login = () => {

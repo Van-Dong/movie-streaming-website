@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaHeart, FaSearch } from "react-icons/fa";
 import { CgUser } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfile } from "../../services/userServices";
 import { getDetailUserAction } from "../../redux/actions/userActions";
 
 const NavBar = () => {
@@ -13,12 +12,12 @@ const NavBar = () => {
   const { userInfo } = useSelector((state) => state.userDetail);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (auth && !userInfo) {
       // fetch userInfo and dispatch to redux
       dispatch(getDetailUserAction());
     }
-  }, [auth, userInfo, dispatch]);
+  }, []);
 
   return (
     <>
@@ -65,11 +64,19 @@ const NavBar = () => {
             </NavLink>
 
             {auth && userInfo ? (
-              <NavLink to="/profile" className={Hover}>
-                <div className="w-8 h-8 flex-colo rounded-full bg-dryGray text-main capitalize">
-                  {userInfo.username[0]}
-                </div>
-              </NavLink>
+              userInfo?.roles.some((role) => role.name === "ADMIN") ? (
+                <NavLink to="/admin/dashboard" className={Hover}>
+                  <div className="w-8 h-8 flex-colo rounded-full bg-dryGray text-main capitalize">
+                    {userInfo.username[0]}
+                  </div>
+                </NavLink>
+              ) : (
+                <NavLink to="/profile" className={Hover}>
+                  <div className="w-8 h-8 flex-colo rounded-full bg-dryGray text-main capitalize">
+                    {userInfo.username[0]}
+                  </div>
+                </NavLink>
+              )
             ) : (
               <NavLink to="/login" className={Hover}>
                 <CgUser className="w-8 h-8" />

@@ -4,7 +4,7 @@ import { FaPlay, FaShareAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
 
-const MovieInfo = ({ movie }) => {
+const MovieInfo = ({ movie, setModalOpen }) => {
   return (
     <div className="text-white">
       <div className="xl:bg-main bg-dry flex-colo xl:bg-opacity-90 relative z-10">
@@ -42,7 +42,10 @@ const MovieInfo = ({ movie }) => {
               <div className="grid sm:grid-cols-5 grid-cols-3 gap-4 p-6 bg-main border border-gray-800 rounded-lg">
                 {/* Share */}
                 <div className="col-span-1 flex-colo border-r border-border">
-                  <button className="w-10 h-10 flex-colo rounded-lg bg-white bg-opacity-20">
+                  <button
+                    onClick={() => setModalOpen(true)}
+                    className="w-10 h-10 flex-colo rounded-lg bg-white bg-opacity-20"
+                  >
                     <FaShareAlt />
                   </button>
                 </div>

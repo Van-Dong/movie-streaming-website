@@ -34,22 +34,22 @@ export const Input = ({
   type,
   bg,
   register,
-  name,
+  // name,
   value,
-  onChange,
+  // onChange,
 }) => {
   return (
     <div>
-      <label className="text-border font-semibold">{label}</label>
+      <label className="text-sm text-border font-semibold">{label}</label>
       <input
         // required
         type={type}
-        name={name}
+        // name={name}
         value={value}
-        onChange={onChange}
+        // onChange={onChange}
         {...register}
         placeholder={placeholder}
-        className={`w-full text-sm mt-2 p-4 border border-border rounded text-white ${
+        className={`w-full text-sm mt-2 p-5 border border-border rounded text-white ${
           bg ? "bg-main" : "bg-dry"
         }`}
       />

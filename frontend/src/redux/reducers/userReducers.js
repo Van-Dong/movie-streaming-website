@@ -22,7 +22,7 @@ export const userRegisterReducer = (state = {}, action) => {
     case userConstants.USER_REGISTER_REQUEST:
       return { isLoading: true };
     case userConstants.USER_REGISTER_SUCCESS:
-      return { isLoading: false, userInfo: action.payload };
+      return { isLoading: false, userInfo: action.payload, isSuccess: true };
     case userConstants.USER_REGISTER_FAIL:
       return { isLoading: false, isError: action.payload };
     case userConstants.USER_REGISTER_RESET:

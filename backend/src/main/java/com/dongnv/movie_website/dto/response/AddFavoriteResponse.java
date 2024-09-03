@@ -8,8 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FavoriteResponse {
+public class AddFavoriteResponse {
     Long id;
-    //    String movieId;
-    MovieFavoriteResponse movie;
+    String movieId;
 }

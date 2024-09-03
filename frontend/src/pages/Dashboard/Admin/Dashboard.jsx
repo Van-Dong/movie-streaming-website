@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../Sidebar";
-import Table from "../../../components/Table";
+import FavoriteTable from "../../../components/FavoriteTable";
 import { Movies } from "../../../data/MovieData";
 import { FaListAlt, FaUser } from "react-icons/fa";
 import { BiCategoryAlt, BiSolidCategory } from "react-icons/bi";
@@ -50,7 +50,7 @@ const Dashboard = () => {
           ))}
         </div>
         <h3 className="text-border text-base">Recent Movies</h3>
-        <Table data={Movies.slice(0, 5)} admin={true} />
+        <FavoriteTable data={Movies.slice(0, 5)} />
       </div>
     </Sidebar>
   );

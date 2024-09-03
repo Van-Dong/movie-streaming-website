@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.dongnv.movie_website.dto.response.ApiResponse;
@@ -120,6 +121,18 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiResponse<Void>> handlingDataIntegrityViolationException(
             DataIntegrityViolationException exception) {
         ErrorCode errorCode = ErrorCode.DATA_INTEGRITY_VIOLATION;
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.<Void>builder()
+                        .status(false)
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
+    ResponseEntity<ApiResponse<Void>> handlingMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException exception) {
+        ErrorCode errorCode = ErrorCode.ARGUMENT_TYPE_MISMATCH;
         return ResponseEntity.status(errorCode.getHttpStatusCode())
                 .body(ApiResponse.<Void>builder()
                         .status(false)

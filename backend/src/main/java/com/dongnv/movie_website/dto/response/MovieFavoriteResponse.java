@@ -1,10 +1,11 @@
 package com.dongnv.movie_website.dto.response;
 
+import java.util.Set;
+
 import com.dongnv.movie_website.entity.Genres;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Data
 @Builder

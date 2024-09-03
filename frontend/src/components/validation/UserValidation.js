@@ -64,3 +64,8 @@ export const changePasswordValidation = yup.object().shape({
     .required("Password is required")
     .oneOf([yup.ref("newPassword")], "Confirm Password must match"),
 });
+
+export const categoryValidation = yup.object().shape({
+  name: yup.string().required().trim(),
+  description: yup.string().trim(),
+});

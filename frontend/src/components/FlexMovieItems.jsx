@@ -7,16 +7,20 @@ const FlexMovieItems = ({ movie }) => {
     <>
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-dryGray">
-          {movie.category}
+          {movie.genres.length > 0 ? movie.genres[0].name : ""}
         </span>
       </div>
       <div className="flex items-center gap-2">
         <FaRegCalendarAlt className="text-subMain w-3 h-3" />
-        <span className="text-sm font-medium text-dryGray">{movie.year}</span>
+        <span className="text-sm font-medium text-dryGray">
+          {movie.yearOfRelease}
+        </span>
       </div>
       <div className="flex items-center gap-2">
         <FaRegClock className="text-subMain w-3 h-3" />
-        <span className="text-sm font-medium text-dryGray">{movie.time}</span>
+        <span className="text-sm font-medium text-dryGray">
+          {movie.duration} min
+        </span>
       </div>
     </>
   );

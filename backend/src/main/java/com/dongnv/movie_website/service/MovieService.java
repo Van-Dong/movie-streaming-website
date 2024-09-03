@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.dongnv.movie_website.dto.request.movie.UploadMovieRequest;
@@ -16,6 +18,7 @@ import com.dongnv.movie_website.exception.AppException;
 import com.dongnv.movie_website.exception.ErrorCode;
 import com.dongnv.movie_website.mapper.MovieMapper;
 import com.dongnv.movie_website.repository.*;
+import com.dongnv.movie_website.specification.MovieSpecification;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -69,9 +72,52 @@ public class MovieService {
         return movieMapper.toMovieResponse(movie);
     }
 
-    public List<MovieResponse> getAllMovies(String query, int page, int size) {
-        List<Movie> movie = movieRepository.findAllByTitleLike(query, PageRequest.of(page, size, Sort.by("title")));
-        return movie.stream().map(movieMapper::toMovieResponse).toList();
+    //    public List<MovieResponse> getAllMovies(String query, int page, int size) {
+    //        Pageable paging = PageRequest.of(page, size, Sort.by("yearOfRelease"));
+    //        Page<Movie> moviePage = movieRepository.findAllByTitleLike(query, paging);
+    //        List<Movie> movies = moviePage.getContent();
+    //        log.info("Total page: " + moviePage.getTotalPages() + "\nTotal element: " + moviePage.getTotalElements());
+    ////        List<Movie> movie = movieRepository.findAllByTitleLike(query, PageRequest.of(page, size,
+    // Sort.by("title")));
+    //
+    //        return movies.stream().map(movieMapper::toMovieResponse).toList();
+    //    }
+
+    public List<MovieResponse> searchMovies(
+            String title,
+            String producingCountry,
+            Integer yearOfRelease,
+            Long studioId,
+            Long genreId,
+            int page,
+            int size) {
+        Specification<Movie> specification = Specification.where(null);
+        if (title != null && !title.isEmpty()) {
+            specification = specification.and(MovieSpecification.hasTitle(title));
+        }
+
+        if (producingCountry != null && !producingCountry.isEmpty()) {
+            specification = specification.and(MovieSpecification.hasProducingCountry(producingCountry));
+        }
+
+        if (yearOfRelease > 0) {
+            specification = specification.and(MovieSpecification.hasYearOfRelease(yearOfRelease));
+        }
+
+        if (studioId != null && studioId > 0) {
+            specification = specification.and(MovieSpecification.hasStudio(studioId));
+        }
+
+        if (genreId != null && genreId > 0) {
+            specification = specification.and(MovieSpecification.hasGenres(genreId));
+        }
+
+        Page<Movie> moviePage = movieRepository.findAll(
+                specification,
+                PageRequest.of(page, size, Sort.by("yearOfRelease").descending()));
+        List<Movie> movies = moviePage.getContent();
+
+        return movies.stream().map(movieMapper::toMovieResponse).toList();
     }
 
     public MovieResponse getMovie(String id) {

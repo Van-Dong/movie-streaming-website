@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CategoriesData } from "../data/CategoriesData";
 import {
   Listbox,
@@ -8,45 +8,33 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
+import { getAllMoviesAction } from "../redux/actions/movieActions";
+import { useDispatch } from "react-redux";
+import { YearData, CountriesData, RatesData } from "../data/FiltersData";
 
-const YearData = [
-  { title: "Sort By Year" },
-  { title: "1700 - 1800" },
-  { title: "1800 - 1900" },
-  { title: "1900 - 2000" },
-  { title: "2000 - 2010" },
-  { title: "2010 - 2030" },
-];
+const Filters = (props) => {
+  const {
+    categories,
+    category,
+    setCategory,
+    year,
+    setYear,
+    country,
+    setCountry,
+    rates,
+    setRates,
+  } = props?.data;
 
-const TimesData = [
-  { title: "Sort By Hours" },
-  { title: "1 - 5 Hours" },
-  { title: "5 - 10 Hours" },
-  { title: "10 - 15 Hours" },
-  { title: "15 - 20 Hours" },
-];
-
-const RatesData = [
-  { title: "Sort By Rates" },
-  { title: "1 Star" },
-  { title: "2 Star" },
-  { title: "3 Star" },
-  { title: "4 Star" },
-  { title: "5 Star" },
-];
-
-const Filters = () => {
-  // category lấy từ backend
-  const [category, setCategory] = useState({ title: "category" });
-  const [year, setYear] = useState(YearData[0]);
-  const [times, setTimes] = useState(TimesData[0]);
-  const [rates, setRates] = useState(RatesData[0]);
+  const dispatch = useDispatch();
 
   const Filter = [
     {
       value: category,
       onChange: setCategory,
-      items: CategoriesData,
+      items:
+        categories?.length > 0
+          ? [{ name: "All Categories" }, ...categories]
+          : [{ name: "No category found" }],
     },
     {
       value: year,
@@ -54,9 +42,9 @@ const Filters = () => {
       items: YearData,
     },
     {
-      value: times,
-      onChange: setTimes,
-      items: TimesData,
+      value: country,
+      onChange: setCountry,
+      items: CountriesData,
     },
     {
       value: rates,
@@ -64,6 +52,26 @@ const Filters = () => {
       items: RatesData,
     },
   ];
+
+  useEffect(() => {
+    if (
+      (category?.name !== "No category found" &&
+        category?.name !== "All Categories") ||
+      year != YearData[0] ||
+      country != CountriesData[0]
+      // || rates != RatesData[0]
+    ) {
+      dispatch(
+        getAllMoviesAction({
+          genreId: category?.name === "All Categories" ? "" : category?.id,
+          producingCountry:
+            country?.name === CountriesData[0].name ? "" : country?.name,
+          yearOfRelease:
+            year?.name === YearData[0].name ? "" : year?.name.slice(0, 4),
+        })
+      );
+    }
+  }, [dispatch, category, country, year]);
   return (
     <div className="my-6 bg-dry border border-gray-800 text-dryGray grid grid-cols-2 md:grid-cols-4 gap-2 lg:gap-12 rounded p-6">
       {Filter.map((filter, index) => (
@@ -74,7 +82,7 @@ const Filters = () => {
               "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
             )}
           >
-            {filter.value.title}
+            {filter.value.name}
             <ChevronDownIcon
               className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-white/60"
               aria-hidden="true"
@@ -97,7 +105,7 @@ const Filters = () => {
               >
                 <CheckIcon className="invisible size-4 fill-black group-data-[selected]:visible group-data-[selected]:font-bold group-data-[focus]:fill-white" />
                 <div className="text-sm text-black group-data-[selected]:font-bold group-data-[focus]:text-white">
-                  {item.title}
+                  {item.name}
                 </div>
               </ListboxOption>
             ))}

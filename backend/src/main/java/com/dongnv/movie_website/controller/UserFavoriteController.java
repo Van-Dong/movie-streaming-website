@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
 import com.dongnv.movie_website.dto.request.user.AddFavoriteRequest;
+import com.dongnv.movie_website.dto.response.AddFavoriteResponse;
 import com.dongnv.movie_website.dto.response.ApiResponse;
 import com.dongnv.movie_website.dto.response.FavoriteResponse;
 import com.dongnv.movie_website.service.UserFavoriteService;
@@ -27,8 +28,8 @@ public class UserFavoriteController {
     UserFavoriteService userFavoriteService;
 
     @PostMapping
-    ApiResponse<FavoriteResponse> addToFavorite(@Valid @RequestBody AddFavoriteRequest request) {
-        return ApiResponse.<FavoriteResponse>builder()
+    ApiResponse<AddFavoriteResponse> addToFavorite(@Valid @RequestBody AddFavoriteRequest request) {
+        return ApiResponse.<AddFavoriteResponse>builder()
                 .result(userFavoriteService.addToFavorite(request))
                 .build();
     }
@@ -48,6 +49,12 @@ public class UserFavoriteController {
     @DeleteMapping("/{id}")
     ApiResponse<Void> deleteFromFavorite(@PathVariable Long id) {
         userFavoriteService.removeFromFavorite(id);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @DeleteMapping("/all")
+    ApiResponse<Void> deleteAllFavorite() {
+        userFavoriteService.removeAll();
         return ApiResponse.<Void>builder().build();
     }
 }

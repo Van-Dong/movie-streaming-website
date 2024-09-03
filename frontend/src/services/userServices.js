@@ -49,28 +49,40 @@ const refreshTokenService = async (token) => {
 };
 
 // Get profile api
-const getProfile = async () => {
+async function getProfileService() {
   const { data } = await Axios.get("/api/user/profile");
   localStorage.setItem("userInfo", JSON.stringify(data.result));
   return data;
-};
+}
 
 // Update profile api
-const updateProfile = async (updatedUser) => {
+const updateProfileService = async (updatedUser) => {
   const { data } = await Axios.put("/api/user/profile", updatedUser);
   localStorage.setItem("userInfo", JSON.stringify(data.result));
   return data;
 };
 
 // change password api
-const changePassword = async (password) => {
+const changePasswordService = async (password) => {
   const { data } = await Axios.put("/api/user/newPassword", password);
   return data;
 };
 
 // delete account api
-const deleteAccount = async () => {
+const deleteAccountService = async () => {
   const { data } = await Axios.post("/api/user/deleteAccount");
+  return data;
+};
+
+// admin: get all users
+const getAllUsersService = async () => {
+  const { data } = await Axios.get("/api/admin/users");
+  return data;
+};
+
+// admin: delete user
+const deleteUserService = async (id) => {
+  const { data } = await Axios.delete(`/api/admin/users/${id}`);
   return data;
 };
 
@@ -79,8 +91,10 @@ export {
   loginService,
   logoutService,
   refreshTokenService,
-  getProfile,
-  updateProfile,
-  changePassword,
-  deleteAccount,
+  getProfileService,
+  updateProfileService,
+  changePasswordService,
+  deleteAccountService,
+  getAllUsersService,
+  deleteUserService,
 };

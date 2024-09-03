@@ -1,15 +1,18 @@
-import { useLayoutEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useLayoutEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaHeart, FaSearch } from "react-icons/fa";
 import { CgUser } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetailUserAction } from "../../redux/actions/userActions";
 
 const NavBar = () => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   const hover = "hover:text-subMain transitions text-white";
   const Hover = ({ isActive }) => (isActive ? "text-subMain" : hover);
   const { auth } = useSelector((state) => state.userLogin);
   const { userInfo } = useSelector((state) => state.userDetail);
+  const { linkedMovies } = useSelector((state) => state.getFavoriteMovies);
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
@@ -18,6 +21,12 @@ const NavBar = () => {
       dispatch(getDetailUserAction());
     }
   }, [auth, userInfo, dispatch]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim()) navigate(`/movies/${search}`);
+    else navigate("/movies");
+  };
 
   return (
     <>
@@ -36,7 +45,10 @@ const NavBar = () => {
 
           {/* Search Form */}
           <div className="col-span-3">
-            <form className="w-full text-sm bg-dryGray rounded flex justify-between items-center gap-4">
+            <form
+              onSubmit={handleSearch}
+              className="w-full text-sm bg-dryGray rounded flex justify-between items-center gap-4"
+            >
               <button
                 type="submit"
                 className="bg-subMain w-12 flex-colo h-12 rounded text-white"
@@ -46,6 +58,8 @@ const NavBar = () => {
               <input
                 type="text"
                 placeholder="Search Movie Name from here"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 className="font-medium placeholder:text-border text-sm w-11/12 h-12 bg-transparent px-2 text-black"
               />
             </form>
@@ -89,7 +103,7 @@ const NavBar = () => {
             >
               <FaHeart className="w-6 h-6" />
               <div className="w-5 h-5 flex-colo rounded-full text-xs bg-subMain text-white absolute -top-5 -right-1">
-                3
+                {linkedMovies?.length}
               </div>
             </NavLink>
           </div>

@@ -1,26 +1,47 @@
-import React, { useEffect, useState } from "react";
-import Table from "../../../components/Table";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Sidebar from "../Sidebar";
 import { Movies } from "../../../data/MovieData";
 import CategoryTable from "../../../components/CategoryTable";
 import { CategoriesData } from "../../../data/CategoriesData";
 import { FaPlusCircle } from "react-icons/fa";
 import CategoryModal from "../../../components/Modals/CategoryModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteCategoryAction,
+  getAllCategoriesAction,
+} from "../../../redux/actions/categoryActions";
+import Loader from "../../../components/Notifications/Loader";
+import Empty from "../../../components/Notifications/Empty";
 
 const Categories = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [category, setCategory] = useState();
+  const { categories, isLoading, isSuccess } = useSelector(
+    (state) => state.categoryGetAll
+  );
+
+  const { isError } = useSelector((state) => state.categoryDelete);
+
+  const dispatch = useDispatch();
+
+  const deleteCategoryHandle = async (id) => {
+    window.confirm("Are you sure you want to delete this category ?") &&
+      dispatch(deleteCategoryAction(id));
+  };
 
   const onEditFunction = (name) => {
     setModalOpen(!modalOpen);
     setCategory(name);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!isSuccess) {
+      dispatch(getAllCategoriesAction());
+    }
     if (modalOpen === false) {
       setCategory();
     }
-  }, [modalOpen]);
+  }, [modalOpen, dispatch]);
 
   return (
     <Sidebar>
@@ -40,7 +61,17 @@ const Categories = () => {
             Create
           </button>
         </div>
-        <CategoryTable data={CategoriesData} onEditFunction={onEditFunction} />
+        {isLoading ? (
+          <Loader />
+        ) : categories.length > 0 ? (
+          <CategoryTable
+            data={categories}
+            onEditFunction={onEditFunction}
+            onDeleteCategory={deleteCategoryHandle}
+          />
+        ) : (
+          <Empty message="You have no favorite movies" />
+        )}
       </div>
     </Sidebar>
   );

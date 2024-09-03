@@ -57,13 +57,20 @@ const Profile = () => {
 
     if (isSuccess || deleteSuccess) {
       toast.success("Successfully");
-      dispatch({ type: userConstants.USER_UPDATE_PROFILE_RESET });
+      dispatch({
+        type: isSuccess
+          ? userConstants.USER_UPDATE_PROFILE_RESET
+          : userConstants.USER_DELETE_ACCOUNT_RESET,
+      });
     }
 
     if (isError || deleteError) {
       toast.error(isError || deleteError);
-      dispatch({ type: userConstants.USER_UPDATE_PROFILE_RESET });
-      dispatch({ type: userConstants.USER_DELETE_ACCOUNT_RESET });
+      dispatch({
+        type: isError
+          ? userConstants.USER_UPDATE_PROFILE_RESET
+          : userConstants.USER_DELETE_ACCOUNT_RESET,
+      });
     }
   }, [
     userInfo,

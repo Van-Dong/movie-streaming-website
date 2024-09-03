@@ -1,10 +1,13 @@
-export const Message = ({ label, placeholder }) => {
+export const Message = ({ label, placeholder, register, bg }) => {
   return (
     <div className="text-sm w-full">
       <label className="text-border font-semibold">{label}</label>
       <textarea
-        className="w-full h-40 mt-2 p-6 bg-main border border-border rounded"
+        className={`w-full h-40 mt-2 p-6 border border-border rounded ${
+          bg ? "bg-main" : "bg-dry"
+        }`}
         placeholder={placeholder}
+        {...register}
       ></textarea>
     </div>
   );

@@ -2,6 +2,7 @@ import * as userConstants from "../constants/userConstants";
 import * as userApi from "../../services/userServices";
 // import toast from "react-host-toast";
 import { ErrorsAction } from "../ErrorHandler";
+import toast from "react-hot-toast";
 
 // login action
 const loginAction = (data) => async (dispatch) => {
@@ -45,7 +46,7 @@ const logoutAction = () => async (dispatch) => {
 const getDetailUserAction = () => async (dispatch) => {
   dispatch({ type: userConstants.USER_DETAIL_REQUEST });
   try {
-    const response = await userApi.getProfile();
+    const response = await userApi.getProfileService();
     dispatch({
       type: userConstants.USER_DETAIL_SUCCESS,
       payload: response.result,
@@ -60,7 +61,7 @@ const updateProfileUserAction = (data) => async (dispatch) => {
   dispatch({ type: userConstants.USER_UPDATE_PROFILE_REQUEST });
 
   try {
-    const response = await userApi.updateProfile(data);
+    const response = await userApi.updateProfileService(data);
     dispatch({
       type: userConstants.USER_UPDATE_PROFILE_SUCCESS,
       payload: response.result,
@@ -78,7 +79,7 @@ const updateProfileUserAction = (data) => async (dispatch) => {
 const userChangePasswordAction = (data) => async (dispatch) => {
   dispatch({ type: userConstants.USER_CHANGE_PASSWORD_REQUEST });
   try {
-    await userApi.changePassword(data);
+    await userApi.changePasswordService(data);
     dispatch({ type: userConstants.USER_CHANGE_PASSWORD_SUCCESS });
   } catch (error) {
     ErrorsAction(error, dispatch, userConstants.USER_CHANGE_PASSWORD_FAIL);
@@ -89,12 +90,41 @@ const userChangePasswordAction = (data) => async (dispatch) => {
 const userDeleteAccountAction = () => async (dispatch) => {
   dispatch({ type: userConstants.USER_DELETE_ACCOUNT_REQUEST });
   try {
-    await userApi.deleteAccount();
+    await userApi.deleteAccountService();
     dispatch({ type: userConstants.USER_DELETE_ACCOUNT_SUCCESS });
     dispatch(logoutAction());
-    dispatch({ type: userConstants.USER_DELETE_ACCOUNT_RESET });
   } catch (error) {
     ErrorsAction(error, dispatch, userConstants.USER_DELETE_ACCOUNT_FAIL);
+  }
+};
+
+// Admin get all user action
+const adminGetAllUsersAction = () => async (dispatch) => {
+  dispatch({ type: userConstants.GET_ALL_USERS_REQUEST });
+  try {
+    const response = await userApi.getAllUsersService();
+    dispatch({
+      type: userConstants.GET_ALL_USERS_SUCCESS,
+      payload: response.result,
+    });
+  } catch (error) {
+    ErrorsAction(error, dispatch, userConstants.GET_ALL_USERS_FAIL);
+    dispatch({ type: userConstants.GET_ALL_USERS_RESET });
+  }
+};
+
+// Admin delete user action
+const adminDeleteUserAction = (id) => async (dispatch) => {
+  dispatch({ type: userConstants.DELETE_USER_REQUEST });
+  try {
+    await userApi.deleteUserService(id);
+    dispatch({ type: userConstants.DELETE_USER_SUCCESS });
+    toast.success("User Deleted");
+    dispatch({ type: userConstants.GET_ALL_USERS_UPDATE, payload: id });
+    dispatch({ type: userConstants.DELETE_USER_RESET });
+  } catch (error) {
+    ErrorsAction(error, dispatch, userConstants.DELETE_USER_FAIL);
+    dispatch({ type: userConstants.DELETE_USER_RESET });
   }
 };
 
@@ -106,4 +136,6 @@ export {
   updateProfileUserAction,
   userChangePasswordAction,
   userDeleteAccountAction,
+  adminGetAllUsersAction,
+  adminDeleteUserAction,
 };

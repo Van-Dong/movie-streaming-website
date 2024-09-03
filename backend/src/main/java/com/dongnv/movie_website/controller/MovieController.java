@@ -33,15 +33,20 @@ public class MovieController {
 
     @GetMapping
     ApiResponse<List<MovieResponse>> getAllMovies(
-            @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "") String title,
+            @RequestParam(defaultValue = "") String producingCountry,
+            @RequestParam(defaultValue = "0") Integer yearOfRelease,
+            @RequestParam(defaultValue = "0") Long studioId,
+            @RequestParam(defaultValue = "0") Long genreId,
             @RequestParam(defaultValue = "0") @Min(value = 0, message = "PAGE_NUMBER_INVALID") int page,
             @RequestParam(defaultValue = "10")
                     @Min(value = 1, message = "PAGE_SIZE_INVALID")
                     @Max(value = 20, message = "PAGE_SIZE_INVALID")
                     int size) {
-        query = "%" + query + "%";
+
         return ApiResponse.<List<MovieResponse>>builder()
-                .result(movieService.getAllMovies(query, page, size))
+                .result(movieService.searchMovies(
+                        title, producingCountry, yearOfRelease, studioId, genreId, page, size))
                 .build();
     }
 

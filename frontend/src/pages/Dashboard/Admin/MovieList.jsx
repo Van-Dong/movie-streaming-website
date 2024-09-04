@@ -3,7 +3,10 @@ import Sidebar from "../Sidebar";
 import FavoriteTable from "../../../components/FavoriteTable";
 import { Movies } from "../../../data/MovieData";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllMoviesAction } from "../../../redux/actions/movieActions";
+import {
+  deleteMovieByIdAction,
+  getAllMoviesAction,
+} from "../../../redux/actions/movieActions";
 import Loader from "../../../components/Notifications/Loader";
 import { RiMovie2Line } from "react-icons/ri";
 import MovieTable from "../../../components/MovieTable";
@@ -38,6 +41,11 @@ const MovieList = () => {
     );
   };
 
+  const handleDelete = (id) => {
+    window.confirm("You are sure you want delete this movie ?") &&
+      dispatch(deleteMovieByIdAction(id));
+  };
+
   return (
     <Sidebar>
       <div className="flex flex-col gap-6">
@@ -53,7 +61,7 @@ const MovieList = () => {
             <Loader />
           </div>
         ) : movies?.length > 0 ? (
-          <MovieTable data={movies} />
+          <MovieTable data={movies} onDelete={handleDelete} />
         ) : (
           <div className="w-full flex-colo gap-6 min-h-screen">
             <div className="flex-colo w-24 h-24 p-5 rounded-full bg-dry text-subMain text-4xl">

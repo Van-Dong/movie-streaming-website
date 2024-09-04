@@ -4,6 +4,7 @@ import * as favorite from "./reducers/favoriteReducers";
 import * as categories from "./reducers/categoryReducers";
 import * as movies from "./reducers/movieReducers";
 import * as comments from "./reducers/commentReducers";
+import * as characters from "./reducers/characterReducers";
 
 const rootReducer = combineReducers({
   userLogin: user.userLoginReducer,
@@ -31,9 +32,15 @@ const rootReducer = combineReducers({
   movieGetTopRated: movies.getTopRatedMoviesReducer,
   movieGetById: movies.getMovieByIdReducer,
   movieGetUrl: movies.getMovieUrlByIdReducer,
+  movieDelete: movies.deleteMovieByIdReducer,
+  movieUpload: movies.uploadMovieReducer,
 
   commentGetAll: comments.getCommentsReducer,
   commentPost: comments.postCommentsReducer,
+
+  characterGetAll: characters.getCharactersReducer,
+  characterCreate: characters.createCharacterReducer,
+  characterDelete: characters.deleteCharacterReducer,
 });
 
 const authInfoFromStorage = localStorage.getItem("auth")

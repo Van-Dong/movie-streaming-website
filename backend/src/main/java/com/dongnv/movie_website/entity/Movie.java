@@ -26,19 +26,19 @@ public class Movie {
     String nativeTitle;
     String description;
     String producingCountry;
-    int yearOfRelease;
-    boolean full;
+    Integer yearOfRelease;
+    Boolean full;
 
     @Builder.Default
-    boolean isPrivate = false;
+    Boolean isPrivate = false;
 
-    int duration; // minutes
+    Integer duration; // minutes
     String posterUrl;
     String trailerUrl;
     String movieKey;
 
     @Builder.Default
-    boolean series = false;
+    Boolean series = false;
 
     @ManyToOne
     @JoinColumn(name = "studio_id")

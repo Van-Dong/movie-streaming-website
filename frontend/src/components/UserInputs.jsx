@@ -13,17 +13,19 @@ export const Message = ({ label, placeholder, register, bg }) => {
   );
 };
 
-export const Select = ({ label, options, onChange }) => {
+export const Select = ({ label, options, register }) => {
   return (
     <div>
       <label className="text-border font-semibold">{label}</label>
       <select
-        className="w-full mt-2 px-6 py-4 text-text bg-main border border-border rounded"
-        onChange={onChange}
+        className="w-full mt-2 px-6 py-4 h-32 text-text bg-main border border-border rounded"
+        // onChange={onChange}
+        {...register}
+        multiple
       >
-        {options.map((o, i) => (
-          <option key={i} value={o.value}>
-            {o.title}
+        {options?.map((o, i) => (
+          <option key={i} value={o.id}>
+            <div>{o.name}</div>
           </option>
         ))}
       </select>

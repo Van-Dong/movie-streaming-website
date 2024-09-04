@@ -17,16 +17,19 @@ import com.dongnv.movie_website.service.MovieService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/movies")
+@Slf4j
 public class MovieController {
     MovieService movieService;
 
     @PostMapping("/uploadMovie")
     ApiResponse<MovieResponse> uploadMovie(@Valid @ModelAttribute UploadMovieRequest request) {
+        log.info("Object " + request.toString());
         return ApiResponse.<MovieResponse>builder()
                 .result(movieService.uploadNewMovie(request))
                 .build();

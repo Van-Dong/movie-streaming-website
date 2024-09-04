@@ -7,7 +7,10 @@ import { BiCategoryAlt, BiSolidCategory } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { adminGetAllUsersAction } from "../../../redux/actions/userActions";
 import { getAllCategoriesAction } from "../../../redux/actions/categoryActions";
-import { getAllMoviesAction } from "../../../redux/actions/movieActions";
+import {
+  deleteMovieByIdAction,
+  getAllMoviesAction,
+} from "../../../redux/actions/movieActions";
 import MovieTable from "../../../components/MovieTable";
 import Loader from "../../../components/Notifications/Loader";
 import { RiMovie2Line } from "react-icons/ri";
@@ -45,6 +48,11 @@ const Dashboard = () => {
     },
   ];
 
+  const handleDelete = (id) => {
+    window.confirm("You are sure you want delete this movie ?") &&
+      dispatch(deleteMovieByIdAction(id));
+  };
+
   useEffect(() => {
     dispatch(adminGetAllUsersAction());
   }, [dispatch]);
@@ -75,7 +83,7 @@ const Dashboard = () => {
         {moviesLoading ? (
           <Loader />
         ) : movies?.length > 0 ? (
-          <MovieTable data={movies.slice(0, 5)} />
+          <MovieTable data={movies.slice(0, 5)} onDelete={handleDelete} />
         ) : (
           <div className="w-full flex-colo gap-6 min-h-96">
             <div className="flex-colo w-24 h-24 p-5 rounded-full bg-dry text-subMain text-4xl">

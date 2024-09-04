@@ -55,3 +55,15 @@ export const getMovieUrlByIdService = async (id) => {
   const { data } = await Axios.get(`/movies/watch/${id}`);
   return data;
 };
+
+// delete movie by id
+export const deleteMovieByIdService = async (id) => {
+  const { data } = await Axios.delete(`/movies/${id}`);
+  return data;
+};
+
+// upload movie
+export const uploadMovieService = async (movie) => {
+  const { data } = await Axios.post("/movies/uploadMovie", movie);
+  return data;
+};

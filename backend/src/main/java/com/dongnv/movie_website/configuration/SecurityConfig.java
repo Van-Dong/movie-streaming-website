@@ -34,7 +34,18 @@ public class SecurityConfig {
     };
 
     private static final String[] PUBLIC_GET_ENDPOINTS = {
-        "/v3/**", "/swagger-ui.html", "/swagger-ui/**",
+        "/v3/**",
+        "/swagger-ui.html",
+        "/swagger-ui/**",
+        "/movies",
+        "/movies/watch/{id}",
+        "/movies/{id}",
+        "/category",
+        "/comments",
+        "/directors",
+        "/characters",
+        "/studios",
+        "/ratings/{movieId}"
     };
 
     private final CustomerJwtDecoder customerJwtDecoder;

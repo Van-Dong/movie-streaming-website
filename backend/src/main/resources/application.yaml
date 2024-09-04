@@ -22,7 +22,7 @@ spring:
     host: "smtp.gmail.com"
     port: 587
     username: "dongnv4724@gmail.com"
-    password: "sced efri gxhe zolz"
+    password: ""
     properties:
       mail:
         smtp:
@@ -44,8 +44,8 @@ jwt:
   issuer: "movie_website"
 
 aws:
-  access: "AKIA257JESJHPOIJAYNU"
-  secret: "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"
+  access: ${AWS_ACCESS_KEY}
+  secret: ${AWS_SECRET_KEY}
   s3:
     bucketName: "movie-website-stograge"
     region: "ap-southeast-2"

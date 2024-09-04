@@ -3,19 +3,41 @@ import { refreshTokenService } from "./userServices";
 
 const Axios = axios.create({
   baseURL: "http://localhost:8080",
-  timeout: 3000, // Quá 5s thì trả về lỗi
+  // timeout: 10000, // Quá 10s thì trả về lỗi
 });
 
-const public_endpoint = [
-  "/auth/refresh",
-  "/auth/token",
-  "/auth/logout",
-  "/api/user/sign-up",
+const public_endpoints = [
+  { url: "/auth/refresh", method: "post" },
+  { url: "/auth/token", method: "post" },
+  { url: "/auth/logout", method: "post" },
+  { url: "/auth/resetPassword", method: "post" },
+  { url: "auth/resetPassword/verifyToken", method: "post" },
+  { url: "/api/user/sign-up", method: "post" },
+  { url: "/movies", method: "get" },
+  { url: "/movies/", method: "get" },
+  { url: "/movies/watch/", method: "get" },
+  { url: "/category", method: "get" },
+  { url: "/comments", method: "get" },
+  { url: "/directors", method: "get" },
+  { url: "/studios", method: "get" },
+  { url: "/ratings/", method: "get" },
 ];
 
 Axios.interceptors.request.use(
   (config) => {
-    if (!public_endpoint.includes(config.url)) {
+    let isPublicEnpoind = public_endpoints.some(
+      (endpoint) =>
+        endpoint.url === config.url && endpoint.method === config.method
+    );
+
+    if (
+      config.method === "get" &&
+      (config.url.includes("/movies/watch/") || config.url.includes("/movies/"))
+    ) {
+      isPublicEnpoind = true;
+    }
+
+    if (!isPublicEnpoind) {
       const token = localStorage.getItem("auth")
         ? JSON.parse(localStorage.getItem("auth"))
         : null;

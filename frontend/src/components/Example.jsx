@@ -1,50 +1,40 @@
 import {
-  Description,
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
 } from "@headlessui/react";
 import { useState } from "react";
 
-function Example() {
-  let [isOpen, setIsOpen] = useState(false);
+const people = [
+  { id: 1, name: "Durward Reynolds" },
+  { id: 2, name: "Kenton Towne" },
+  { id: 3, name: "Therese Wunsch" },
+  { id: 4, name: "Benedict Kessler" },
+  { id: 5, name: "Katelyn Rohan" },
+];
 
+function Example() {
+  const [selectedPeople, setSelectedPeople] = useState([]);
+  console.log(selectedPeople);
   return (
-    <>
-      <button onClick={() => setIsOpen(true)}>Open dialog</button>
-      <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="relative z-50"
-      >
-        <DialogBackdrop
-          transition
-          className="fixed inset-0 bg-black/30 duration-300 ease-out data-[closed]:opacity-0"
-        />
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel
-            transition
-            className="max-w-lg space-y-4 bg-white p-12 duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+    <Listbox value={selectedPeople} onChange={setSelectedPeople} multiple>
+      <ListboxButton className="bg-blue-200 p-1 border border-border rounded">
+        {/* {selectedPeople.map((person) => person.name).join(", ")} */}
+        Please select actor
+      </ListboxButton>
+      <ListboxOptions anchor="bottom" className="bg-dry text-text p-2">
+        {people.map((person) => (
+          <ListboxOption
+            key={person.id}
+            value={person.id}
+            className="data-[focus]:bg-main"
           >
-            <DialogTitle className="text-lg font-bold">
-              Deactivate account
-            </DialogTitle>
-            <Description>
-              This will permanently deactivate your account
-            </Description>
-            <p>
-              Are you sure you want to deactivate your account? All of your data
-              will be permanently removed.
-            </p>
-            <div className="flex gap-4">
-              <button onClick={() => setIsOpen(false)}>Cancel</button>
-              <button onClick={() => setIsOpen(false)}>Deactivate</button>
-            </div>
-          </DialogPanel>
-        </div>
-      </Dialog>
-    </>
+            {person.name} {selectedPeople.includes(person.id) && "✔️"}
+          </ListboxOption>
+        ))}
+      </ListboxOptions>
+    </Listbox>
   );
 }
 

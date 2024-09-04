@@ -23,12 +23,17 @@ public class UploadMovieRequest {
     String nativeTitle;
     String description;
     String producingCountry;
-    int yearOfRelease;
-    int duration;
+    Integer yearOfRelease;
+    Integer duration;
 
-    boolean series;
-    boolean full;
-    boolean isPrivate;
+    @Builder.Default
+    Boolean series = false;
+
+    @Builder.Default
+    Boolean full = true;
+
+    @Builder.Default
+    Boolean isPrivate = false;
 
     @FileConstraint(type = "video", message = "TYPE_OF_VIDEO_NOT_SUPPORTED")
     MultipartFile trailerFile;
@@ -39,7 +44,7 @@ public class UploadMovieRequest {
     @FileConstraint(type = "video", message = "TYPE_OF_VIDEO_NOT_SUPPORTED")
     MultipartFile movieFile;
 
-    long studioId;
+    Long studioId;
     List<Long> genreIds;
     List<Long> actorIds;
     List<Long> directorIds;

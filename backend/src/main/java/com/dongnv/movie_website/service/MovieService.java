@@ -42,19 +42,36 @@ public class MovieService {
 
     public MovieResponse uploadNewMovie(UploadMovieRequest request) {
         Movie movie = movieMapper.toMovie(request);
-        Studio studio = studioRepository
-                .findById(request.getStudioId())
-                .orElseThrow(() -> new AppException(ErrorCode.STUDIO_NOT_FOUND));
-        movie.setStudio(studio);
 
-        List<Genres> genres = genresRepository.findAllById(request.getGenreIds());
-        List<Actor> actors = actorRepository.findAllById(request.getActorIds());
-        List<Character> characters = characterRepository.findAllById(request.getCharacterIds());
-        List<Director> directors = directorRepository.findAllById(request.getDirectorIds());
-        movie.setGenres(new HashSet<>(genres));
-        movie.setActors(new HashSet<>(actors));
-        movie.setCharacters(new HashSet<>(characters));
-        movie.setDirectors(new HashSet<>(directors));
+        log.info("Request: " + request.toString());
+        log.info("Mapper: " + movie.toString());
+
+        if (request.getStudioId() != null) {
+            Studio studio = studioRepository
+                    .findById(request.getStudioId())
+                    .orElseThrow(() -> new AppException(ErrorCode.STUDIO_NOT_FOUND));
+            movie.setStudio(studio);
+        }
+
+        if (request.getGenreIds() != null) {
+            List<Genres> genres = genresRepository.findAllById(request.getGenreIds());
+            movie.setGenres(new HashSet<>(genres));
+        }
+
+        if (request.getActorIds() != null) {
+            List<Actor> actors = actorRepository.findAllById(request.getActorIds());
+            movie.setActors(new HashSet<>(actors));
+        }
+
+        if (request.getCharacterIds() != null) {
+            List<Character> characters = characterRepository.findAllById(request.getCharacterIds());
+            movie.setCharacters(new HashSet<>(characters));
+        }
+
+        if (request.getDirectorIds() != null) {
+            List<Director> directors = directorRepository.findAllById(request.getDirectorIds());
+            movie.setDirectors(new HashSet<>(directors));
+        }
 
         if (Objects.nonNull(request.getMovieFile())) {
             movie.setMovieKey(awsS3Service.uploadVideo(request.getMovieFile(), request.getTitle()));

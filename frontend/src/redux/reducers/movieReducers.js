@@ -13,6 +13,11 @@ export const getAllMoviesReducer = (state = { movies: [] }, action) => {
         page: action.payload.page,
         isSuccess: true,
       };
+    case movieConstants.GET_ALL_MOVIES_AFTER_DELETE:
+      return {
+        ...state,
+        movies: state.movies.filter((m) => m.id !== action.payload),
+      };
     case movieConstants.GET_ALL_MOVIES_FAIL:
       return { isLoading: false, isError: action.payload, movies: [] };
     case movieConstants.GET_ALL_MOVIES_RESET:
@@ -97,6 +102,45 @@ export const getMovieUrlByIdReducer = (state = { movie: {} }, action) => {
       return { isLoading: false, isError: action.payload };
     case movieConstants.GET_MOVIE_URL_BY_ID_RESET:
       return { movie: {} };
+    default:
+      return state;
+  }
+};
+
+// delete movie by id
+export const deleteMovieByIdReducer = (state = {}, action) => {
+  switch (action.type) {
+    case movieConstants.DELETE_MOVIE_REQUEST:
+      return { isLoading: true };
+    case movieConstants.DELETE_MOVIE_SUCCESS:
+      return {
+        isLoading: false,
+        isSuccess: true,
+      };
+    case movieConstants.DELETE_MOVIE_FAIL:
+      return { isLoading: false, isError: action.payload };
+    case movieConstants.DELETE_MOVIE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+// Upload movie reducer
+export const uploadMovieReducer = (state = {}, action) => {
+  switch (action.type) {
+    case movieConstants.UPLOAD_MOVIE_REQUEST:
+      return { isLoading: true };
+    case movieConstants.UPLOAD_MOVIE_SUCCESS:
+      return {
+        isLoading: false,
+        isSuccess: true,
+        movie: action.payload,
+      };
+    case movieConstants.UPLOAD_MOVIE_FAIL:
+      return { isLoading: false, isError: action.payload };
+    case movieConstants.UPLOAD_MOVIE_RESET:
+      return {};
     default:
       return state;
   }

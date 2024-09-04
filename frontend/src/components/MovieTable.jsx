@@ -34,7 +34,7 @@ const Row = ({ movie, onDelete }) => {
       <td className={`${Text}`}>
         <div className="float-right flex gap-2 items-center">
           <Link
-            to={`/movie/${movie?.title}`}
+            to={`/movie/${movie?.id}`}
             className="text-sm bg-subMain text-white p-2 rounded-full hover:bg-opacity-70 transitions"
           >
             <GoEye />
@@ -44,7 +44,7 @@ const Row = ({ movie, onDelete }) => {
             <FaEdit className="text-green-600" />
           </button>
           <button
-            // onClick={() => onDelete(favoriteId)}
+            onClick={() => onDelete(movie?.id)}
             className="bg-subMain p-1.5 rounded text-base text-white hover:bg-opacity-70 transitions"
           >
             <MdDelete />

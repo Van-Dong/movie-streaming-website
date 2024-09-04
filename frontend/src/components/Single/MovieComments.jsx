@@ -170,7 +170,6 @@ const MovieComments = ({ movieId }) => {
           ) : (
             "No comment"
           )}
-          {console.log("Comments ", comments)}
         </div>
       </div>
     </div>

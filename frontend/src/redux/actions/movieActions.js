@@ -90,3 +90,30 @@ export const getMovieUrlByIdAction = (id) => async (dispatch) => {
     // dispatch(movieConstants.GET_MOVIE_BY_ID_RESET);
   }
 };
+
+export const deleteMovieByIdAction = (id) => async (dispatch) => {
+  dispatch({ type: movieConstants.DELETE_MOVIE_REQUEST });
+  try {
+    await movieApi.deleteMovieByIdService(id);
+    dispatch({ type: movieConstants.DELETE_MOVIE_SUCCESS });
+    toast.success("Deleted movie!");
+    dispatch({ type: movieConstants.GET_ALL_MOVIES_AFTER_DELETE, payload: id });
+  } catch (error) {
+    ErrorsAction(error, dispatch, movieConstants.DELETE_MOVIE_FAIL);
+  }
+};
+
+export const uploadMovieAction = (movie) => async (dispatch) => {
+  dispatch({ type: movieConstants.UPLOAD_MOVIE_REQUEST });
+  try {
+    const response = await movieApi.uploadMovieService(movie);
+    dispatch({
+      type: movieConstants.UPLOAD_MOVIE_SUCCESS,
+      payload: response.result,
+    });
+    toast.success("Upload movie success!");
+    // dispatch({ type: movieConstants.GET_ALL_MOVIES_AFTER_DELETE, payload: id });
+  } catch (error) {
+    ErrorsAction(error, dispatch, movieConstants.UPLOAD_MOVIE_FAIL);
+  }
+};

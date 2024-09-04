@@ -69,3 +69,7 @@ export const categoryValidation = yup.object().shape({
   name: yup.string().required().trim(),
   description: yup.string().trim(),
 });
+
+export const commentValidation = yup.object().shape({
+  comment: yup.string().trim().required("You don't input your comment"),
+});

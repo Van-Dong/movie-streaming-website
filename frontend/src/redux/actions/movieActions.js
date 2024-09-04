@@ -31,7 +31,7 @@ export const getAllMoviesAction =
       });
     } catch (error) {
       ErrorsAction(error, dispatch, movieConstants.GET_ALL_MOVIES_FAIL);
-      dispatch(movieConstants.GET_ALL_MOVIES_RESET);
+      // dispatch(movieConstants.GET_ALL_MOVIES_RESET);
     }
   };
 
@@ -45,7 +45,7 @@ export const getRandomMoviesAction = () => async (dispatch) => {
     });
   } catch (error) {
     ErrorsAction(error, dispatch, movieConstants.GET_RANDOM_MOVIES_FAIL);
-    dispatch(movieConstants.GET_RANDOM_MOVIES_RESET);
+    // dispatch(movieConstants.GET_RANDOM_MOVIES_RESET);
   }
 };
 
@@ -59,7 +59,7 @@ export const getTopRatedMoviesAction = () => async (dispatch) => {
     });
   } catch (error) {
     ErrorsAction(error, dispatch, movieConstants.GET_TOP_RATED_MOVIES_FAIL);
-    dispatch(movieConstants.GET_TOP_RATED_MOVIES_RESET);
+    // dispatch(movieConstants.GET_TOP_RATED_MOVIES_RESET);
   }
 };
 
@@ -73,6 +73,20 @@ export const getMovieByIdAction = (id) => async (dispatch) => {
     });
   } catch (error) {
     ErrorsAction(error, dispatch, movieConstants.GET_MOVIE_BY_ID_FAIL);
-    dispatch(movieConstants.GET_MOVIE_BY_ID_RESET);
+    // dispatch(movieConstants.GET_MOVIE_BY_ID_RESET);
+  }
+};
+
+export const getMovieUrlByIdAction = (id) => async (dispatch) => {
+  dispatch({ type: movieConstants.GET_MOVIE_URL_BY_ID_REQUEST });
+  try {
+    const response = await movieApi.getMovieUrlByIdService(id);
+    dispatch({
+      type: movieConstants.GET_MOVIE_URL_BY_ID_SUCCESS,
+      payload: response.result,
+    });
+  } catch (error) {
+    ErrorsAction(error, dispatch, movieConstants.GET_MOVIE_URL_BY_ID_FAIL);
+    // dispatch(movieConstants.GET_MOVIE_BY_ID_RESET);
   }
 };

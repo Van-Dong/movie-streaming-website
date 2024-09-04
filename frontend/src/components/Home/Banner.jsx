@@ -1,14 +1,22 @@
-import React from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Movies } from "./../../data/MovieData";
 import FlexMovieItems from "../FlexMovieItems";
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import Loader from "../Notifications/Loader";
 import { RiMovie2Line } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { likeMovie, useIsLiked } from "../../context/Functionalities";
 
 const Banner = ({ movies, isLoading }) => {
+  const dispatch = useDispatch();
+  const { isLoading: addFavoriteLoading } = useSelector(
+    (state) => state.addFavoriteMovie
+  );
+  const { auth } = useSelector((state) => state.userLogin);
+
+  const { isLiked } = useIsLiked();
+
   return (
     <div className="relative w-full">
       {isLoading ? (
@@ -52,7 +60,13 @@ const Banner = ({ movies, isLoading }) => {
                   >
                     Watch
                   </Link>
-                  <button className="bg-white px-3 py-3 rounded font-medium text-sm text-white bg-opacity-30 hover:text-subMain transitions">
+                  <button
+                    onClick={() => likeMovie(movie, dispatch, auth)}
+                    disabled={isLiked(movie) || addFavoriteLoading}
+                    className={`bg-white px-3 py-3 rounded font-medium text-sm bg-opacity-30 hover:text-subMain transitions 
+                      ${isLiked(movie) ? "text-subMain" : "text-white"}
+                      `}
+                  >
                     <FaHeart />
                   </button>
                 </div>

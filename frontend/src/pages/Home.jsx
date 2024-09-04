@@ -13,25 +13,19 @@ import {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {
-    isLoading: randomLoading,
-    isError: randomError,
-    movies: randomMovies,
-  } = useSelector((state) => state.movieGetRandom);
-  const {
-    isLoading: topRatedLoading,
-    isError: topRatedError,
-    movies: topRatedMovies,
-  } = useSelector((state) => state.movieGetTopRated);
-  const { isLoading, isError, movies } = useSelector(
-    (state) => state.movieGetAll
+  const { isLoading: randomLoading, movies: randomMovies } = useSelector(
+    (state) => state.movieGetRandom
   );
+  const { isLoading: topRatedLoading, movies: topRatedMovies } = useSelector(
+    (state) => state.movieGetTopRated
+  );
+  const { isLoading, movies } = useSelector((state) => state.movieGetAll);
 
   useEffect(() => {
     dispatch(getRandomMoviesAction());
     dispatch(getTopRatedMoviesAction());
     dispatch(getAllMoviesAction());
-  }, [dispatch, isError, randomError, topRatedError]);
+  }, [dispatch]);
 
   return (
     <Layout>

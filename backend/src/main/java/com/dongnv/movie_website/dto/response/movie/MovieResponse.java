@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.response;
+package com.dongnv.movie_website.dto.response.movie;
 
 import java.util.Set;
 
@@ -28,7 +28,6 @@ public class MovieResponse {
 
     String posterUrl;
     String trailerUrl;
-    String movieKey;
 
     Studio studio;
     Set<Genres> genres;

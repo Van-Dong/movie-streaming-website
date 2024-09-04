@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.dongnv.movie_website.dto.request.user.UserRatingRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
-import com.dongnv.movie_website.dto.response.MovieRatingResponse;
 import com.dongnv.movie_website.dto.response.UserRatingResponse;
+import com.dongnv.movie_website.dto.response.movie.MovieRatingResponse;
 import com.dongnv.movie_website.service.RatingService;
 
 import lombok.AccessLevel;

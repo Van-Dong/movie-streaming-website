@@ -6,8 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.dongnv.movie_website.dto.request.user.UserRatingRequest;
-import com.dongnv.movie_website.dto.response.MovieRatingResponse;
 import com.dongnv.movie_website.dto.response.UserRatingResponse;
+import com.dongnv.movie_website.dto.response.movie.MovieRatingResponse;
 import com.dongnv.movie_website.entity.Rating;
 import com.dongnv.movie_website.entity.User;
 import com.dongnv.movie_website.exception.AppException;

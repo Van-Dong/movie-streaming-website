@@ -15,8 +15,16 @@ import { Link } from "react-router-dom";
 import Rating from "../Stars";
 import Loader from "../Notifications/Loader";
 import Empty from "../Notifications/Empty";
+import { useDispatch, useSelector } from "react-redux";
+import { likeMovie, useIsLiked } from "../../context/Functionalities";
 
 const TopRated = ({ movies, isLoading }) => {
+  const dispatch = useDispatch();
+  const { isLiked } = useIsLiked();
+  const { isLoading: addFavoriteLoading } = useSelector(
+    (state) => state.addFavoriteMovie
+  );
+  const { auth } = useSelector((state) => state.userLogin);
   const [prevEl, setPrevEl] = useState(null);
   const [nextEl, setNextEl] = useState(null);
   const classNames =
@@ -64,7 +72,13 @@ const TopRated = ({ movies, isLoading }) => {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-0 right-0 bottom-0 left-0 bg-black bg-opacity-70 px-4 hidden group-hover:flex transitions flex-col items-center justify-center gap-6">
-                    <button className="w-12 h-12 flex-colo transitions bg-white bg-opacity-30 text-white hover:bg-subMain rounded-full">
+                    <button
+                      disabled={addFavoriteLoading || isLiked(movie)}
+                      onClick={() => likeMovie(movie, dispatch, auth)}
+                      className={`w-12 h-12 flex-colo transitions text-white hover:bg-subMain rounded-full ${
+                        isLiked(movie) ? "bg-subMain" : "bg-white/30"
+                      }`}
+                    >
                       <FaHeart />
                     </button>
                     <Link

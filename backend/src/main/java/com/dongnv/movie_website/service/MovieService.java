@@ -11,7 +11,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.dongnv.movie_website.dto.request.movie.UploadMovieRequest;
-import com.dongnv.movie_website.dto.response.MovieResponse;
+import com.dongnv.movie_website.dto.response.movie.MovieResponse;
+import com.dongnv.movie_website.dto.response.movie.WatchMovieResponse;
 import com.dongnv.movie_website.entity.*;
 import com.dongnv.movie_website.entity.Character;
 import com.dongnv.movie_website.exception.AppException;
@@ -123,6 +124,16 @@ public class MovieService {
     public MovieResponse getMovie(String id) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.MOVIE_NOT_FOUND));
         return movieMapper.toMovieResponse(movie);
+    }
+
+    public WatchMovieResponse getWatchMovie(String id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.MOVIE_NOT_FOUND));
+        WatchMovieResponse response = movieMapper.toWatchMovieResponse(movie);
+        if (movie.getMovieKey() != null) {
+            String tempUrl = awsS3Service.getPreSignedUrl(movie.getMovieKey(), 180);
+            response.setMovieUrl(tempUrl);
+        }
+        return response;
     }
 
     public MovieResponse updateMovie(String id, UploadMovieRequest request) {

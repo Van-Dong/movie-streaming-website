@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 public class CommentResponse {
     Long id;
     String username;
-    String movieId;
+    //    String movieId;
     String comment;
 
     LocalDateTime createdAt;

@@ -49,3 +49,9 @@ export const getMovieByIdService = async (id) => {
   const { data } = await Axios.get(`/movies/${id}`);
   return data;
 };
+
+// get movie url by id
+export const getMovieUrlByIdService = async (id) => {
+  const { data } = await Axios.get(`/movies/watch/${id}`);
+  return data;
+};

@@ -7,7 +7,7 @@ const FlexMovieItems = ({ movie }) => {
     <>
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-dryGray">
-          {movie.genres.length > 0 ? movie.genres[0].name : ""}
+          {movie?.genres?.length > 0 ? movie.genres[0].name : ""}
         </span>
       </div>
       <div className="flex items-center gap-2">

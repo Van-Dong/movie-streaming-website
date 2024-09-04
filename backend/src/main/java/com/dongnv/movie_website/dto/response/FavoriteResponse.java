@@ -1,5 +1,7 @@
 package com.dongnv.movie_website.dto.response;
 
+import com.dongnv.movie_website.dto.response.movie.MovieFavoriteResponse;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

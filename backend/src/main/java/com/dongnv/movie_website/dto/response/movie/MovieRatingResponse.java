@@ -1,4 +1,4 @@
-package com.dongnv.movie_website.dto.response;
+package com.dongnv.movie_website.dto.response.movie;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

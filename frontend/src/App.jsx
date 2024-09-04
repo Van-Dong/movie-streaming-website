@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
@@ -26,9 +26,24 @@ import {
   AdminProtectedRouter,
   ProtectedRouter,
 } from "./services/ProtectedRouter";
+import { useDispatch, useSelector } from "react-redux";
+import { getFavoriteMoviesAction } from "./redux/actions/favoriteActions";
+import { getAllMoviesAction } from "./redux/actions/movieActions";
+import { getAllCategoriesAction } from "./redux/actions/categoryActions";
 
 const App = () => {
   Aos.init();
+  const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state.userLogin);
+
+  useEffect(() => {
+    if (auth?.refreshToken) {
+      dispatch(getFavoriteMoviesAction());
+    }
+    dispatch(getAllCategoriesAction());
+    dispatch(getAllMoviesAction());
+  }, [dispatch]);
+
   return (
     <>
       <ToastContainer />

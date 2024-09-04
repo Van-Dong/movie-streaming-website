@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.dongnv.movie_website.dto.request.movie.UploadMovieRequest;
 import com.dongnv.movie_website.dto.response.ApiResponse;
-import com.dongnv.movie_website.dto.response.MovieResponse;
+import com.dongnv.movie_website.dto.response.movie.MovieResponse;
+import com.dongnv.movie_website.dto.response.movie.WatchMovieResponse;
 import com.dongnv.movie_website.service.MovieService;
 
 import lombok.AccessLevel;
@@ -54,6 +55,13 @@ public class MovieController {
     ApiResponse<MovieResponse> getMovie(@PathVariable String id) {
         return ApiResponse.<MovieResponse>builder()
                 .result(movieService.getMovie(id))
+                .build();
+    }
+
+    @GetMapping("/watch/{id}")
+    ApiResponse<WatchMovieResponse> getUrlMovie(@PathVariable String id) {
+        return ApiResponse.<WatchMovieResponse>builder()
+                .result(movieService.getWatchMovie(id))
                 .build();
     }
 

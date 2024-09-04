@@ -3,6 +3,7 @@ import * as user from "./reducers/userReducers";
 import * as favorite from "./reducers/favoriteReducers";
 import * as categories from "./reducers/categoryReducers";
 import * as movies from "./reducers/movieReducers";
+import * as comments from "./reducers/commentReducers";
 
 const rootReducer = combineReducers({
   userLogin: user.userLoginReducer,
@@ -29,6 +30,10 @@ const rootReducer = combineReducers({
   movieGetRandom: movies.getRandomMoviesReducer,
   movieGetTopRated: movies.getTopRatedMoviesReducer,
   movieGetById: movies.getMovieByIdReducer,
+  movieGetUrl: movies.getMovieUrlByIdReducer,
+
+  commentGetAll: comments.getCommentsReducer,
+  commentPost: comments.postCommentsReducer,
 });
 
 const authInfoFromStorage = localStorage.getItem("auth")

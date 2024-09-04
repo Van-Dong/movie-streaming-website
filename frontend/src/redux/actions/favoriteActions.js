@@ -28,6 +28,8 @@ export const addFavoriteMovieAction = (movieId) => async (dispatch) => {
     dispatch({
       type: favoriteConstants.USER_ADD_FAVORITE_MOVIE_SUCCESS,
     });
+    toast.success("Add movie to favorite successfully");
+    dispatch(getFavoriteMoviesAction());
   } catch (error) {
     ErrorsAction(
       error,

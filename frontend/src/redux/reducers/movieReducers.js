@@ -74,7 +74,7 @@ export const getMovieByIdReducer = (state = { movie: {} }, action) => {
         isSuccess: true,
       };
     case movieConstants.GET_MOVIE_BY_ID_FAIL:
-      return { isLoading: false, isError: action.payload, movie: {} };
+      return { isLoading: false, isError: action.payload };
     case movieConstants.GET_MOVIE_BY_ID_RESET:
       return { movie: {} };
     default:
@@ -82,5 +82,22 @@ export const getMovieByIdReducer = (state = { movie: {} }, action) => {
   }
 };
 
-// Tai sao get movie by id la 4 constant con get All, get random, top rated chi co 3 constant (khong co reset)
-// 8:29:00
+// get movie by id
+export const getMovieUrlByIdReducer = (state = { movie: {} }, action) => {
+  switch (action.type) {
+    case movieConstants.GET_MOVIE_URL_BY_ID_REQUEST:
+      return { isLoading: true };
+    case movieConstants.GET_MOVIE_URL_BY_ID_SUCCESS:
+      return {
+        isLoading: false,
+        movie: action.payload,
+        isSuccess: true,
+      };
+    case movieConstants.GET_MOVIE_URL_BY_ID_FAIL:
+      return { isLoading: false, isError: action.payload };
+    case movieConstants.GET_MOVIE_URL_BY_ID_RESET:
+      return { movie: {} };
+    default:
+      return state;
+  }
+};

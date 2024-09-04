@@ -30,7 +30,7 @@ const Row = ({ movie, favoriteId, onDelete }) => {
       <td className={`${Text}`}>
         <div className="float-right flex gap-2 items-center">
           <Link
-            to={`/movie/${movie?.title}`}
+            to={`/movie/${movie?.id}`}
             className="text-sm bg-subMain text-white p-2 rounded-full hover:bg-opacity-70 transitions"
           >
             <GoEye />

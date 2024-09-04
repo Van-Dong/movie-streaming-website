@@ -1,5 +1,4 @@
 import MainModal from "./MainModal";
-import { Input } from "../UserInputs";
 import {
   FaFacebook,
   FaPinterest,
@@ -46,8 +45,7 @@ const ShareMovieModal = ({ modalOpen, setModalOpen, movie }) => {
   ];
   const url = `${window.location.protocol}//${
     window.location.host
-  }/movie/${encodeURI(movie.name)}`;
-  console.log(url);
+  }/movie/${encodeURI(movie?.id)}`;
 
   return (
     <MainModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
@@ -56,7 +54,10 @@ const ShareMovieModal = ({ modalOpen, setModalOpen, movie }) => {
       overflow-y-auto h-full bg-main text-white rounded-2xl"
       >
         <h2 className="text-3xl font-bold">
-          Share <span className="text-xl font-bold">{movie?.name}</span>
+          Share{" "}
+          <span className="text-2xl font-bold text-subMain">
+            {movie?.title}
+          </span>
         </h2>
         <form className="flex-rows flex-wrap gap-6 mt-6">
           {shareData.map((data, index) => (

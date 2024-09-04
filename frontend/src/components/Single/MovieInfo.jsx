@@ -3,6 +3,7 @@ import FlexMovieItems from "./../FlexMovieItems";
 import { FaPlay, FaShareAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
+import Stars from "../Stars";
 
 const MovieInfo = ({ movie, setModalOpen }) => {
   return (
@@ -10,8 +11,8 @@ const MovieInfo = ({ movie, setModalOpen }) => {
       <div className="xl:bg-main bg-dry flex-colo xl:bg-opacity-90 relative z-10">
         <div className="absolute hidden xl:block top-0 right-0 bottom-0 left-0 -z-1 opacity-20">
           <img
-            src={`/images/movies/${movie?.image}`}
-            alt={movie?.name}
+            src={movie?.posterUrl ? movie?.posterUrl : "/images/movies/1.jpg"}
+            alt={movie?.title}
             className="w-full xl:inline-block h-full object-cover"
           />
         </div>
@@ -19,8 +20,8 @@ const MovieInfo = ({ movie, setModalOpen }) => {
         <div className="container mx-auto px-3 2xl:px-32 xl:grid grid-cols-3 flex-colo py-10 lg:py-20 gap-8 z-50">
           <div className="xl:col-span-1 w-full xl:order-none order-last xl:h-header bg-dry border border-gray-800 rounded-lg overflow-hidden">
             <img
-              src={`/images/movies/${movie?.image}`}
-              alt={movie?.name}
+              src={movie?.posterUrl ? movie?.posterUrl : "/images/movies/1.jpg"}
+              alt={movie?.title}
               className="w-full h-full object-cover"
             />
           </div>
@@ -28,7 +29,7 @@ const MovieInfo = ({ movie, setModalOpen }) => {
             <div className="col-span-3 flex flex-col gap-10">
               {/* Title */}
               <h1 className="xl:text-4xl capitalize font-sans text-2xl font-bold">
-                {movie?.name}
+                {movie?.title}
               </h1>
               {/* Flex items */}
               <div className="flex items-center gap-4 font-medium text-dryGray">
@@ -38,7 +39,9 @@ const MovieInfo = ({ movie, setModalOpen }) => {
                 <FlexMovieItems movie={movie} />
               </div>
               {/* description */}
-              <p className="text-text text-sm leading-7">{movie?.desc}</p>
+              <p className="text-text text-sm leading-7">
+                {movie?.description}
+              </p>
               <div className="grid sm:grid-cols-5 grid-cols-3 gap-4 p-6 bg-main border border-gray-800 rounded-lg">
                 {/* Share */}
                 <div className="col-span-1 flex-colo border-r border-border">
@@ -52,19 +55,25 @@ const MovieInfo = ({ movie, setModalOpen }) => {
                 {/* Language */}
                 <div className="col-span-2 flex-colo font-medium text-sm">
                   <p>
-                    Language:{" "}
-                    <span className="ml-2 truncate">{movie?.language}</span>
+                    Country:{" "}
+                    <span className="ml-2 truncate">
+                      {movie?.producingCountry}
+                    </span>
                   </p>
                 </div>
                 {/* Watch button */}
                 <div className="sm:col-span-2 col-span-3 flex justify-end font-medium text-sm">
                   <Link
-                    to={`/watch/${movie?.name}`}
+                    to={`/watch/${movie?.id}`}
                     className="bg-dry p-4 hover:bg-subMain transitions border-2 border-subMain rounded-full flex-rows gap-4 w-full sm:py-3"
                   >
                     <FaPlay className="w-3 h-3" /> Watch
                   </Link>
                 </div>
+              </div>
+              {/* Rating */}
+              <div className="flex gap-4 text-yellow-500 mb-8">
+                <Stars value={4} />
               </div>
             </div>
             <div className="col-span-2 md:mt-0 mt-2 flex justify-end">
